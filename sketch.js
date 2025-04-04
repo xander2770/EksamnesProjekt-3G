@@ -179,7 +179,7 @@ function drawGame() {
   }
 
   // Handle player movement and display
-  if(!farm.isUIOpen){ // Making sure the player can't move when the UI is open
+  if(!farm.isUIOpen && !storage.isUIOpen){ // Making sure the player can't move when the UI is open
     if (keyIsDown(65)) { // "a" key
       player.move(-8, "left");
       player.animate(); // Run animation
@@ -195,15 +195,20 @@ function drawGame() {
 
   // Display the farm area
   farm.display();
+  // Display the farm UI if it is open
+  farm.displayUI();
+
+  // Display the storage area
+  storage.display();
+  //Display the storage UI
+  storage.displayUI();
 
   // Display the player
   player.display();
 
-  //Display the storage UI
-  storage.displayUI();
+  
 
-  // Display the farm UI if it is open
-  farm.displayUI();
+  
 
 
 
@@ -258,12 +263,13 @@ function loadGame() {
   // Spawn player with the loaded data
   player = new Player(width / 2, height / 2 + height / 3, 200, 200, skinFramesRight, skinFramesLeft, skinIdleFrame);
   farm = new Farm(width - width/10, height / 2 + height / 3, 200);
+  storage = new Storage(width / 10, height / 2 + height / 3, 20, 200);
   gameState = "play";
 
   // Start auto-saving every 30 seconds
   gameController.startAutoSave(username);
 
-  storage = new Storage(width / 10, height / 2 + height / 3, 20);
+  
 
 }
 
@@ -349,25 +355,14 @@ function collectPotatoes() {
 }
 
 function keyPressed() {
-  if (key === 'e' || key === 'E'&& farm.isPlayerNearby(player)) {
-    farm.toggleUI(); // Toggle the farm UI
+  if (key === 'e' || key === 'E') {
+    if(farm.isPlayerNearby(player)){
+      farm.toggleUI(); // Toggle the farm UI
+    }
   }
+
   if ((key === 'e' || key === 'E') && storage.isPlayerNearby(player)) {
     storage.toggleUI();
-    
-    if (storage.isUIOpen) {
-      deliverButton.show();
-      deliverInput.show();
-      collectButton.show();
-      collectInput.show();
-      storageCountText.show();
-    } else {
-      deliverButton.hide();
-      deliverInput.hide();
-      collectButton.hide();
-      collectInput.hide();
-      storageCountText.hide();
-    }
   }
 }
 
@@ -391,5 +386,7 @@ function mousePressed() {
   }
 
   // Checks if mouse is clicked on a plot on the farmU
-  farm.handleMouseClick(mouseX,mouseY)
+  if(farm){
+    farm.handleMouseClick(mouseX, mouseY);
+  }
 }

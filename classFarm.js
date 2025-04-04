@@ -8,7 +8,6 @@ class Farm{
     // Mini-game grid (3x3)
     this.grid = Array(3).fill().map(() => Array(3).fill('empty')); // Initialize grid with 'empty'
     this.cellSize = 100; // Size of each grid cell
-    console.log(this.grid); // Log the grid for debugging
   }
 
   // To check if the player is within the interaction radius by using dist function

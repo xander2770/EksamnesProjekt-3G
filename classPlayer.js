@@ -55,7 +55,7 @@ class Player{
         imageMode(CENTER);
         if (this.isAnimating) {
           // Display the current animation frame
-          image(this.currentFrames[this.currentFrame], this.x, this.y, this.w, this.h);
+          image(this.currentFrames[this.currentFrame], this.x, this.y, this.width, this.height);
         } else {
           // Display the idle frame when not animating
           image(this.idleFrame, this.x, this.y, this.width, this.height);
