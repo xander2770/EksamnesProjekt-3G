@@ -1,11 +1,12 @@
 //HUSK: Når du bruger .set på noget i firebase så sletter den alt og setter den til det du siger. Brug .update for at adde noget
 
-
 let gameState = "start"; // Game state: "start" or "play"
 
 let gameController
 let farm
 let player
+
+let storage
 
 let usernameInput;
 let username = ""; // Store the current username
@@ -44,6 +45,8 @@ function preload(){
 }
 
 function setup() {
+  Emil = new EmilErEnAbeVejr
+  
   createCanvas(windowWidth, windowHeight);
   frameRate(60); // Set the frame rate to 60 FPS
 
@@ -74,6 +77,43 @@ function setup() {
   logoutButton.style("border-radius", "5px");
   logoutButton.style("font-size", "16px");
   logoutButton.hide();
+
+  // Aflever kartofler til storage
+  deliverButton = createButton("Aflever kartofler").position(200, 200).mousePressed(deliverPotatoes);
+  deliverButton.style("background-color", "#B2BEB5");
+  deliverButton.style("color", "white");
+  deliverButton.style("padding", "10px 20px");
+  deliverButton.style("border", "none");
+  deliverButton.style("border-radius", "5px");
+  deliverButton.style("font-size", "16px");
+  deliverButton.hide();
+
+  //Henter karotofler fra storage
+  collectButton = createButton("Hent kartofler").position(200, 250).mousePressed(collectPotatoes);
+  collectButton.style("background-color", "#B2BEB5");
+  collectButton.style("color", "white");
+  collectButton.style("padding", "10px 20px");
+  collectButton.style("border", "none");
+  collectButton.style("border-radius", "5px");
+  collectButton.style("font-size", "16px");
+  collectButton.hide();
+
+  // Input til antal kartofler der skal afleveres
+  deliverInput = createInput("1", "number");
+  deliverInput.position(400, 200);
+  deliverInput.size(40);
+  deliverInput.hide();
+
+  // Input til antal kartofler der skal hentes
+  collectInput = createInput("1", "number");
+  collectInput.position(400, 250);
+  collectInput.size(40);
+  collectInput.hide();
+
+  // Tekst til at vise kartoffel-status
+  storageCountText = createP();
+  storageCountText.position(200, 300);
+  storageCountText.hide();
 }
 
 function draw() {
@@ -138,8 +178,6 @@ function drawGame() {
     }
   }
 
-
-  
   // Handle player movement and display
   if(!farm.isUIOpen){ // Making sure the player can't move when the UI is open
     if (keyIsDown(65)) { // "a" key
@@ -161,8 +199,13 @@ function drawGame() {
   // Display the player
   player.display();
 
+  //Display the storage UI
+  storage.displayUI();
+
   // Display the farm UI if it is open
   farm.displayUI();
+
+
 
 }
 
@@ -219,6 +262,9 @@ function loadGame() {
 
   // Start auto-saving every 30 seconds
   gameController.startAutoSave(username);
+
+  storage = new Storage(width / 10, height / 2 + height / 3, 20);
+
 }
 
 function logout() {
@@ -267,9 +313,61 @@ function logout() {
   console.log("User logged out. Returning to the start screen.");
 }
 
+function deliverPotatoes() {
+  let amount = int(deliverInput.value());
+
+  if (amount <= 0) {
+    alert("Du skal vælge et positivt antal kartofler!");
+    return;
+  }
+
+  if (gameController.potato >= amount) {
+    if (storage.addPotatoes(amount)) {
+      gameController.potato -= amount;
+    } else {
+      alert("Der er ikke plads nok i storage!");
+    }
+  } else {
+    alert("Du har ikke nok kartofler!");
+  }
+}
+
+function collectPotatoes() {
+  let amount = int(collectInput.value());
+
+  if (amount <= 0) {
+    alert("Du skal vælge et positivt antal kartofler!");
+    return;
+  }
+
+  const taken = storage.removePotatoes(amount);
+  if (taken > 0) {
+    gameController.potato += taken;
+  } else {
+    alert("Ingen kartofler i storage!");
+  }
+}
+
 function keyPressed() {
   if (key === 'e' || key === 'E'&& farm.isPlayerNearby(player)) {
     farm.toggleUI(); // Toggle the farm UI
+  }
+  if ((key === 'e' || key === 'E') && storage.isPlayerNearby(player)) {
+    storage.toggleUI();
+    
+    if (storage.isUIOpen) {
+      deliverButton.show();
+      deliverInput.show();
+      collectButton.show();
+      collectInput.show();
+      storageCountText.show();
+    } else {
+      deliverButton.hide();
+      deliverInput.hide();
+      collectButton.hide();
+      collectInput.hide();
+      storageCountText.hide();
+    }
   }
 }
 
@@ -291,4 +389,7 @@ function mousePressed() {
       logoutButton.hide(); // Hide the Logout button
     }
   }
+
+  // Checks if mouse is clicked on a plot on the farmU
+  farm.handleMouseClick(mouseX,mouseY)
 }

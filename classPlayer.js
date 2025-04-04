@@ -33,7 +33,6 @@ class Player{
         }
     }
     
-    
       animate() {
         this.isAnimating = true;
         this.frameCounter++; // Increment the frame counter every time aniamte() is called. and it is called every frame, in game, cause of draw
