@@ -21,11 +21,16 @@ let skinFramesLeft = []; // Array for left movement animation frames
 let skinIdleFrame
 let map
 
+//Settings variables
 let settingsIcon; // Variable for the settings icon
 let settingsAngle = 0; // Angle for rotating the settings icon
 let isRotating = false; // To check if the icon is rotating
 let rotationTarget = 0; // Target angle for rotation (e.g., 180 degrees)
-//let isSettingsMenuOpen = false; // To check if the settings menu is open
+
+//Farm UI images variables
+let potatoEmptyPlot
+let potatoPlantedPlot = [] // Array for the different stages of the planted potato
+let potatoHarvestablePlot
 
 function preload(){
     // Load player animation frames for moving right
@@ -33,7 +38,6 @@ function preload(){
     skinFramesRight.push(loadImage(`images/PlayerFrames/ØlstykkeFarmManRight${i}_256x256.png`));
     skinFramesLeft.push(loadImage(`images/PlayerFrames/FarmManLeft${i}_256x256.png`));
   }
-  
     // Load the idle frame
     skinIdleFrame = loadImage('images/PlayerFrames/ØlstykkeFarmManIdle_256x256.png');
     
@@ -41,7 +45,14 @@ function preload(){
     map = loadImage('images/map1_1920x1080.png');
 
      // Load the settings icon image
-  settingsIcon = loadImage('images/settingsIcon_128x128.png');
+    settingsIcon = loadImage('images/settingsIcon_128x128.png');
+
+    //Farm UI images
+    potatoEmptyPlot = loadImage('images/FarmImages/potatoEmptyPlot.png');
+    potatoHarvestablePlot = loadImage('images/FarmImages/potatoHarvestablePlot.png');
+    for (let i = 1; i <= 3; i++) {
+        potatoPlantedPlot.push(loadImage(`images/FarmImages/potatoPlantedPlot${i}.png`)); 
+    }
 }
 
 function setup() {
@@ -207,6 +218,12 @@ function drawGame() {
   farm.displayUI();
   //Display the storage UI
   storage.displayUI();
+
+  // Update plant growth
+  farm.updateGrowth(); 
+
+  // Display potato notifications
+  gameController.displayNotifications();
 }
 
 function startGame() {
@@ -257,15 +274,12 @@ function loadGame() {
   
   // Spawn player with the loaded data
   player = new Player(width / 2, height / 2 + height / 3, 200, 200, skinFramesRight, skinFramesLeft, skinIdleFrame);
-  farm = new Farm(width - width/10, height / 2 + height / 3, 200);
+  farm = new Farm(width - width/10, height / 2 + height / 3, 200, potatoEmptyPlot, potatoPlantedPlot, potatoHarvestablePlot);
   storage = new Storage(width / 10, height / 2 + height / 3, 20, 200);
   gameState = "play";
 
   // Start auto-saving every 30 seconds
   gameController.startAutoSave(username);
-
-  
-
 }
 
 function logout() {

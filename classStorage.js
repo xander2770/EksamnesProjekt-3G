@@ -19,7 +19,7 @@ class Storage {
     }
 
     display() {
-      if(!this.isUIOpen){
+      if(!this.isUIOpen && !farm.isUIOpen){
       fill(0, 255, 0, 50); // Semi-transparent green for the farm radius
       noStroke();
       rectMode(CENTER);

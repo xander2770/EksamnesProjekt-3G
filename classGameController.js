@@ -6,6 +6,9 @@ class GameController {
       this.autoSaveInterval = null;
       this.saveNotification = "";
       this.saveNotificationTimeout = null;
+
+      // Notifications for potatoes
+    this.notifications = [];
     }
   
     // To update coins and potatoes
@@ -17,12 +20,65 @@ class GameController {
     // To add coins
     addCoins(amount) {
       this.coins += amount;
+
+      // Add a notification for the added  coins
+      if (this.coins == 1) {
+        this.addNotification("+ " + amount + " Coin", "Coin");
+      }else if (this.coins > 1) {
+        this.addNotification("+ " + amount + " Coins", "Coin");
+      }
     }
   
     // To add potatoes
     addPotatoes(amount) {
       this.potato += amount;
+
+      // Add a notification for the added potatoes
+      if (this.potato == 1) {
+        this.addNotification("+ " + amount + " Potato", "Potato");
+      }else if (this.potato > 1) {
+        this.addNotification("+ " + amount + " Potatoes", "Potato");
+      }
+    
     }
+
+    // Add a notification
+  addNotification(text, type) {
+    // Generate random offsets within a square bounding box
+    const offsetX = random(-50, 50); // Random x offset
+    const offsetY = random(-50, 50); // Random y offset
+
+    this.notifications.push({
+      x: width * 0.8 + offsetX, // Random position within the radius
+      y: height / 2 + offsetY,
+      text: text,
+      time: Date.now(), // Timestamp for the notification
+      speed: random(1, 2), // Random upwards speed
+      type: type
+    });
+  }
+
+  // Display notifications
+  displayNotifications() {
+    // Filter out notifications older than 3 seconds - Filter works like a for loop, but it creates a new array with the elements that are true in the function
+    this.notifications = this.notifications.filter(noti => Date.now() - noti.time < 3000); //Date.now() takes the current time, so when the time the notification was created is longer than 3 seconds ago, it is removed
+
+    // Display and update each notification
+    for (const notification of this.notifications) {
+      if (notification.type === "Potato") {
+        fill(255, 165, 0); // Orange text for potatoes
+      } else if (notification.type === "Coins") {
+        fill(255, 215, 0); // Gold text for coins
+      }
+      textSize(16);
+      textAlign(CENTER, CENTER);
+      text(notification.text, notification.x, notification.y);
+
+      // Move the notification upwards
+      notification.y -= notification.speed;
+    }
+  }
+
   
     // Save progress to Firebase
     saveProgress(username) {
