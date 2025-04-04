@@ -12,7 +12,7 @@ class Player{
     this.idleFrame = idleFrame; // Image for the idle frame
     this.currentFrames = framesRight; // Default to right-facing frames
     this.currentFrame = 0; // Index of the current frame
-    this.animationSpeed = 10; // Speed of animation (lower is faster)
+    this.animationSpeed = 15; // Speed of animation (lower is faster)
     this.frameCounter = 0; // Counter to control frame switching
     this.isAnimating = false; // Flag to control animation
     }
@@ -59,7 +59,7 @@ class Player{
           image(this.currentFrames[this.currentFrame], this.x, this.y, this.w, this.h);
         } else {
           // Display the idle frame when not animating
-          image(this.idleFrame, this.x, this.y, this.w, this.h);
+          image(this.idleFrame, this.x, this.y, this.width, this.height);
         }
       }
 }

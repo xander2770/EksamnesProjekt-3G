@@ -26,8 +26,6 @@ let isRotating = false; // To check if the icon is rotating
 let rotationTarget = 0; // Target angle for rotation (e.g., 180 degrees)
 //let isSettingsMenuOpen = false; // To check if the settings menu is open
 
-let testButton
-
 function preload(){
     // Load player animation frames for moving right
   for (let i = 1; i <= 4; i++) { // Assuming 4 frames for the right animation
@@ -255,7 +253,6 @@ function logout() {
     isRotating = true; // Trigger the rotation
     saveButton.hide(); // Hide the Save Progress button
     logoutButton.hide(); // Hide the Logout button
-    testButton.hide(); // Hide the test button
   }
 
   // Show the start screen elements
@@ -264,7 +261,6 @@ function logout() {
   usernameInput.value(''); // Clear the input field
 
   // Hide the game elements
-  testButton.hide();
   saveButton.hide();
   logoutButton.hide();
 
@@ -289,12 +285,10 @@ function mousePressed() {
       rotationTarget = 180; // Rotate to 180 degrees
       saveButton.show(); // Show the Save Progress button
       logoutButton.show(); // Show the Logout button
-      testButton.show(); // Show the test button
     } else {
       rotationTarget = 0; // Rotate back to 0 degrees
       saveButton.hide(); // Hide the Save Progress button
       logoutButton.hide(); // Hide the Logout button
-      testButton.hide(); // Hide the test button
     }
   }
 }
