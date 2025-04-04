@@ -6,7 +6,7 @@ class Farm{
     this.isUIOpen = false; // Flag to track if the UI is open
 
     // Mini-game grid (3x3)
-    this.grid = Array(3).fill().map(() => Array(3).fill('empty')); // Initialize grid with 'empty'
+    this.grid = Array(5).fill().map(() => Array(5).fill('empty')); // Initialize grid with 'empty'
     this.cellSize = 100; // Size of each grid cell
   }
 
@@ -33,31 +33,39 @@ class Farm{
   }
 
  // To display the UI when it is open
- displayUI() {
+ displayUI()  {
   if (this.isUIOpen) {
-      fill(50, 50, 50, 200); // Semi-transparent dark background
-      rectMode(CENTER);
-      rect(width / 2, height / 2, 800, 600); // UI background
+    // UI background
+    fill(50, 50, 50, 200); // Semi-transparent dark background
+    rectMode(CENTER);
+    const uiWidth = width * 0.8; //Ignore that it says it can't find width, it still works and gets the width of the window
+    const uiHeight = height * 0.8;//Ignore Same as above just with height
+    const uiX = width / 2; //Ignore Same as above
+    const uiY = height / 2; //Ignore Same as above
+    rect(uiX, uiY, uiWidth, uiHeight);
 
-      fill(255);
-      textAlign(CENTER, CENTER);
-      textSize(20);
-      text("Farm UI", width / 2, height / 2 - 200);
-      textSize(16);
-      text("Click on a grid cell to plant or harvest potatoes!", width / 2, height / 2 - 160);
+    // Text inside the UI
+    fill(255);
+    textAlign(CENTER, CENTER);
+    textSize(20);
+    text("Farm UI", uiX, uiY - uiHeight / 2 + 50); // Place text near the top of the UI box
+    textSize(16);
+    text("Click on a grid cell to plant or harvest potatoes!", uiX, uiY - uiHeight / 2 + 100);
 
-      // Display the 3x3 grid
-      this.displayGrid();
-  }
+    // Display the 3x3 grid
+    this.displayGrid();
+}
 }
 
   // Display the 3x3 grid for the mini-game
   displayGrid() {
-    const startX = width / 2 - this.cellSize * 1.5;
-    const startY = height / 2 - this.cellSize * 1.5;
+    const gridWidth = this.cellSize * 5; // This is the total width of the grid, so we can center it
+    const gridHeight = this.cellSize * 5; // This is the total height of the grid, so we can center it
+    const startX = (width - gridWidth) / 2; // Center the grid horizontally
+    const startY = (height - gridHeight) / 2; // Center the grid vertically
 
-    for (let row = 0; row < 3; row++) {
-        for (let col = 0; col < 3; col++) {
+    for (let row = 0; row < 5; row++) {
+        for (let col = 0; col < 5; col++) {
             const x = startX + col * this.cellSize;
             const y = startY + row * this.cellSize;
 
@@ -83,11 +91,13 @@ class Farm{
 // Handle mouse clicks to interact with the grid
 handleMouseClick(mx, my) {
 if (this.isUIOpen) {
-    const startX = width / 2 - this.cellSize * 1.5;
-    const startY = height / 2 - this.cellSize * 1.5;
+  const gridWidth = this.cellSize * 5; // Same as above
+  const gridHeight = this.cellSize * 5; // Same as above
+  const startX = (width - gridWidth) / 2; // Center it horizontally
+  const startY = (height - gridHeight) / 2; // Center it vertically
 
-    for (let row = 0; row < 3; row++) {
-        for (let col = 0; col < 3; col++) {
+    for (let row = 0; row < 5; row++) {
+        for (let col = 0; col < 5; col++) {
             const x = startX + col * this.cellSize;
             const y = startY + row * this.cellSize;
 

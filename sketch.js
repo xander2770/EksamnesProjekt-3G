@@ -152,7 +152,7 @@ function drawGame() {
     text(gameController.saveNotification, width / 2, 30); // Display at the top center of the screen
   }
 
-
+//Settings:
   // Display the settings icon
   push(); // Push saves everything before the push, so we can use pop it later so everthing changed after the push is gone
   translate(width - 50, 50); // Translate positions the 0,0 point in the top left. This allows use to rotate the icon around its center. Other wise it would rotate in a big circle.
@@ -177,6 +177,7 @@ function drawGame() {
       isRotating = false; // Stop rotating when the target is reached
     }
   }
+//End of settings
 
   // Handle player movement and display
   if(!farm.isUIOpen && !storage.isUIOpen){ // Making sure the player can't move when the UI is open
@@ -195,23 +196,17 @@ function drawGame() {
 
   // Display the farm area
   farm.display();
-  // Display the farm UI if it is open
-  farm.displayUI();
-
   // Display the storage area
   storage.display();
-  //Display the storage UI
-  storage.displayUI();
 
-  // Display the player
+  /* Display the player. Needs to be after the farm and storages area, 
+  so it is on top of them and under the their UI*/
   player.display();
 
-  
-
-  
-
-
-
+  // Display the farm UI if it is open
+  farm.displayUI();
+  //Display the storage UI
+  storage.displayUI();
 }
 
 function startGame() {
