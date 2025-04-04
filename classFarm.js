@@ -33,15 +33,15 @@ class Farm{
   }
 
  // To display the UI when it is open
- displayUI()  {
+ displayUI() {
   if (this.isUIOpen) {
     // UI background
     fill(50, 50, 50, 200); // Semi-transparent dark background
     rectMode(CENTER);
-    const uiWidth = width * 0.8; //Ignore that it says it can't find width, it still works and gets the width of the window
-    const uiHeight = height * 0.8;//Ignore Same as above just with height
-    const uiX = width / 2; //Ignore Same as above
-    const uiY = height / 2; //Ignore Same as above
+    const uiWidth = width * 0.8; // Width of the UI box - Ignore it cant find the width and height of the screen. Still can and works
+    const uiHeight = height * 0.8;// Height of the UI box 
+    const uiX = width / 2; //Position - Ignore Same as above
+    const uiY = height / 2; //Position - Ignore Same as above
     rect(uiX, uiY, uiWidth, uiHeight);
 
     // Text inside the UI
@@ -50,7 +50,7 @@ class Farm{
     textSize(20);
     text("Farm UI", uiX, uiY - uiHeight / 2 + 50); // Place text near the top of the UI box
     textSize(16);
-    text("Click on a grid cell to plant or harvest potatoes!", uiX, uiY - uiHeight / 2 + 100);
+    text("Click on a grid cell to plant or harvest potatoes!", uiX, uiY - uiHeight / 2 + 100); // Place text below the title
 
     // Display the 3x3 grid
     this.displayGrid();
