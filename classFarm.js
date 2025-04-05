@@ -11,10 +11,12 @@ class Farm{
     this.harvestablePlot = harvestablePlot; // Image for harvestable plot
 
     // Mini-game grid (5x5)
-    this.grid = Array(5).fill().map(() =>
+    /* fill(), fills the array with maps that each holds 5 arrays, 
+    that each holds a state, growth stage, and growth timer. This creates the 5x5 grid of plots*/
+    this.grid = Array(5).fill().map(() => 
       Array(5).fill().map(() => ({ state: 'empty', growthStage: 0, growthTimer: 0 }))
     ); // Make grid with 'empty', growth stage 0, and growth timer 0
-    this.cellSize = 100; // Size of each grid cell
+    this.plotSize = 100; // Size of each grid plot
     this.growthDuration = 5000; // Time (in ms) for a plant to grow to the next stage
   }
 
@@ -58,7 +60,7 @@ class Farm{
     textSize(20);
     text("Farm UI", uiX, uiY - uiH / 2 + 50); // Place text near the top of the UI box
     textSize(16);
-    text("Click on a grid cell to plant or harvest potatoes!", uiX, uiY - uiH / 2 + 100); // Place text below the title
+    text("Click on a grid plot to plant or harvest potatoes!", uiX, uiY - uiH / 2 + 100); // Place text below the title
 
     // Display the 3x3 grid
     this.displayGrid();
@@ -68,26 +70,26 @@ class Farm{
   // Display the 3x3 grid for the mini-game
   displayGrid() {
     
-    const gridWidth = this.cellSize * 5; // This is the total width of the grid, so we can center it
-    const gridHeight = this.cellSize * 5; // This is the total height of the grid, so we can center it
+    const gridWidth = this.plotSize * 5; // This is the total width of the grid, so we can center it
+    const gridHeight = this.plotSize * 5; // This is the total height of the grid, so we can center it
     const startX = (width - gridWidth) / 2; // Center the grid horizontally
     const startY = (height - gridHeight) / 2; // Center the grid vertically
 
-    for (let row = 0; row < 5; row++) {
+    for (let row = 0; row < 5; row++) { // Loop through rows that each holds 5 plots
         for (let col = 0; col < 5; col++) {
-          const x = startX + col * this.cellSize;
-          const y = startY + row * this.cellSize;
+          const x = startX + col * this.plotSize;
+          const y = startY + row * this.plotSize;
   
-          const cell = this.grid[row][col]; // Get the cell object
+          const plot = this.grid[row][col]; // Get the plot object
 
         imageMode(CORNER); // Set image mode to CORNER for positioning
-        // Draw the appropriate image based on the state of the cell
-        if (cell.state === 'empty') {
-          image(this.emptyPlot, x, y, this.cellSize, this.cellSize); // Draw empty plot
-        } else if (cell.state === 'planted') {
-          image(this.plantedPlot[cell.growthStage], x, y, this.cellSize, this.cellSize); // Draw planted plot based on growth stage
-        } else if (cell.state === 'harvestable') {
-          image(this.harvestablePlot, x, y, this.cellSize, this.cellSize); // Draw harvestable plot
+        // Draw the appropriate image based on the state of the plot
+        if (plot.state === 'empty') {
+          image(this.emptyPlot, x, y, this.plotSize, this.plotSize); // Draw empty plot
+        } else if (plot.state === 'planted') {
+          image(this.plantedPlot[plot.growthStage], x, y, this.plotSize, this.plotSize); // Draw planted plot based on growth stage
+        } else if (plot.state === 'harvestable') {
+          image(this.harvestablePlot, x, y, this.plotSize, this.plotSize); // Draw harvestable plot
         }
         
         }
@@ -100,16 +102,16 @@ updateGrowth() {
 
   for (let row = 0; row < 5; row++) {
     for (let col = 0; col < 5; col++) {
-      const cell = this.grid[row][col];
+      const plot = this.grid[row][col];
 
-      if (cell.state === 'planted') {
+      if (plot.state === 'planted') {
         // Check if enough time has passed to grow to the next stage
-        if (currentTime - cell.growthTimer >= this.growthDuration) {
-          if (cell.growthStage < this.plantedPlot.length - 1) {
-            cell.growthStage++; // Advance to the next growth stage
-            cell.growthTimer = currentTime; // Reset the growth timer
+        if (currentTime - plot.growthTimer >= this.growthDuration) {
+          if (plot.growthStage < this.plantedPlot.length - 1) {
+            plot.growthStage++; // Advance to the next growth stage
+            plot.growthTimer = currentTime; // Reset the growth timer
           } else {
-            cell.state = 'harvestable'; // Fully grown, change to harvestable
+            plot.state = 'harvestable'; // Fully grown, change to harvestable
           }
         }
       }
@@ -120,32 +122,32 @@ updateGrowth() {
 // Handle mouse clicks to interact with the grid
 handleMouseClick(mx, my) {
 if (this.isUIOpen) {
-  const gridWidth = this.cellSize * 5; // Same as above
-  const gridHeight = this.cellSize * 5; // Same as above
+  const gridWidth = this.plotSize * 5; // Same as above
+  const gridHeight = this.plotSize * 5; // Same as above
   const startX = (width - gridWidth) / 2; // Center it horizontally
   const startY = (height - gridHeight) / 2; // Center it vertically
 
     for (let row = 0; row < 5; row++) {
         for (let col = 0; col < 5; col++) {
-            const x = startX + col * this.cellSize;
-            const y = startY + row * this.cellSize;
+            const x = startX + col * this.plotSize;
+            const y = startY + row * this.plotSize;
 
-            // Check if the mouse is within the cell
-          if (mx > x && mx < x + this.cellSize && my > y && my < y + this.cellSize) {
-            const cell = this.grid[row][col]; // Get the cell object
+            // Check if the mouse is within the plot area
+          if (mx > x && mx < x + this.plotSize && my > y && my < y + this.plotSize) {
+            const plot = this.grid[row][col]; // Get the plot object
 
-            // Interact with the cell based on its state
-            if (cell.state === 'empty') {
-              cell.state = 'planted'; // Change to planted
-              cell.growthStage = 0; // Start at growth stage 0
-              cell.growthTimer = Date.now(); // Start the growth timer
-            } else if (cell.state === 'harvestable') {
+            // Interact with the plot based on its state
+            if (plot.state === 'empty') {
+              plot.state = 'planted'; // Change to planted
+              plot.growthStage = 0; // Start at growth stage 0
+              plot.growthTimer = Date.now(); // Start the growth timer
+            } else if (plot.state === 'harvestable') {
               gameController.addPotatoes(1); // Add a potato to the player's inventory
-              cell.state = 'empty'; // Reset to empty
-              cell.growthStage = 0; // Reset growth stage
-              cell.growthTimer = 0; // Reset growth timer
+              plot.state = 'empty'; // Reset to empty
+              plot.growthStage = 0; // Reset growth stage
+              plot.growthTimer = 0; // Reset growth timer
             }
-            // Exit the loop once the clicked cell is found and updated
+            // Exit the loop once the clicked plot is found and updated
           return;
           }
         }
