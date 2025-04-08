@@ -90,8 +90,8 @@ function setup() {
   logoutButton.hide();
 
   // Aflever kartofler til storage
-  deliverButton = createButton("Aflever kartofler").position(200, 200).mousePressed(deliverPotatoes);
-  deliverButton.style("background-color", "#B2BEB5");
+  deliverButton = createButton("Aflever kartofler").position(330, 450).mousePressed(deliverPotatoes);
+  deliverButton.style("background-color", "#20B2AA");
   deliverButton.style("color", "white");
   deliverButton.style("padding", "10px 20px");
   deliverButton.style("border", "none");
@@ -100,8 +100,8 @@ function setup() {
   deliverButton.hide();
 
   //Henter karotofler fra storage
-  collectButton = createButton("Hent kartofler").position(200, 250).mousePressed(collectPotatoes);
-  collectButton.style("background-color", "#B2BEB5");
+  collectButton = createButton("Hent kartofler").position(330, 520).mousePressed(collectPotatoes);
+  collectButton.style("background-color", "#20B2AA");
   collectButton.style("color", "white");
   collectButton.style("padding", "10px 20px");
   collectButton.style("border", "none");
@@ -111,13 +111,13 @@ function setup() {
 
   // Input til antal kartofler der skal afleveres
   deliverInput = createInput("1", "number");
-  deliverInput.position(400, 200);
+  deliverInput.position(500, 460);
   deliverInput.size(40);
   deliverInput.hide();
 
   // Input til antal kartofler der skal hentes
   collectInput = createInput("1", "number");
-  collectInput.position(400, 250);
+  collectInput.position(500, 530);
   collectInput.size(40);
   collectInput.hide();
 
