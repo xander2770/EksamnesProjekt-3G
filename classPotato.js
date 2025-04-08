@@ -1,4 +1,4 @@
-// classPotato.js
+//classPotato.js
 class Potato {
     constructor(x, y) {
       this.x = x;
@@ -7,11 +7,11 @@ class Potato {
       this.originalY = y;
       this.bounceHeight = 10;
       this.bounceSpeed = 0.1;
-      this.bounceOffset = random(0, 1000); // gør at de ikke hopper ens
+      this.bounceOffset = random(0, 1000); //
     }
   
     update() {
-      // Lav et lille "hop" med sin position
+      //Laver et lille "hop" med sin position
       this.y = this.originalY + sin(millis() * this.bounceSpeed + this.bounceOffset) * this.bounceHeight;
     }
   
