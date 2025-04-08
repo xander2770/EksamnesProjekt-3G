@@ -151,7 +151,7 @@ function drawGame() {
 
   // Display coins and potatoes
   textSize(16);
-  fill(255);
+  fill(0);
   text("Coins: " + gameController.coins, 55, 30);
   text("Potatoes: " + gameController.potato, 55, 50);
 
