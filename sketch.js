@@ -8,6 +8,8 @@ let player
 
 let storage
 
+let shop
+
 let usernameInput;
 let username = ""; // Store the current username
 
@@ -58,7 +60,7 @@ function preload(){
 function setup() {
   Emil = new EmilErEnAbeVejr
   
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(windowWidth-1, windowHeight-1);
   frameRate(60); // Set the frame rate to 60 FPS
 
   // Create username input and save button
@@ -191,7 +193,7 @@ function drawGame() {
 //End of settings
 
   // Handle player movement and display
-  if(!farm.isUIOpen && !storage.isUIOpen){ // Making sure the player can't move when the UI is open
+  if(!farm.isUIOpen && !storage.isUIOpen && !shop.isUIOpen){ // Making sure the player can't move when the UI is open
     if (keyIsDown(65)) { // "a" key
       player.move(-8, "left");
       player.animate(); // Run animation
@@ -209,6 +211,8 @@ function drawGame() {
   farm.display();
   // Display the storage area
   storage.display();
+  // Display the shop area
+  shop.display();
 
   /* Display the player. Needs to be after the farm and storages area, 
   so it is on top of them and under the their UI*/
@@ -218,6 +222,8 @@ function drawGame() {
   farm.displayUI();
   //Display the storage UI
   storage.displayUI();
+  //Display the shop UI
+  shop.displayUI();
 
   // Update plant growth
   farm.updateGrowth(); 
@@ -276,6 +282,7 @@ function loadGame() {
   player = new Player(width / 2, height / 2 + height / 3, 200, 200, skinFramesRight, skinFramesLeft, skinIdleFrame);
   farm = new Farm(width - width/10, height / 2 + height / 3, 200, potatoEmptyPlot, potatoPlantedPlot, potatoHarvestablePlot);
   storage = new Storage(width / 10, height / 2 + height / 3, 20, 200);
+  shop = new Shop(width / 2, height / 2 + height / 3, 200);
   gameState = "play";
 
   // Start auto-saving every 30 seconds
@@ -370,8 +377,16 @@ function keyPressed() {
     }
   }
 
-  if ((key === 'e' || key === 'E') && storage.isPlayerNearby(player)) {
-    storage.toggleUI();
+  if (key === 'e' || key === 'E') {
+    if(storage.isPlayerNearby(player)){
+      storage.toggleUI(); // Toggle the farm UI
+    }
+  }
+
+  if (key === 'e' || key === 'E') {
+    if(shop.isPlayerNearby(player)){
+      shop.toggleUI(); // Toggle the farm UI
+    }
   }
 }
 

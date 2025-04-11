@@ -11,10 +11,12 @@ class Farm{
     this.harvestablePlot = harvestablePlot; // Image for harvestable plot
 
     // Mini-game grid (5x5)
+    let plotsAmonuntRow = 5; // Number of plots in each row - Note: Row is horisontal and columns is vertical.
+    let plotsAmonuntCol = 5; // Number of plots in each column
     /* fill(), fills the array with maps that each holds 5 arrays, 
     that each holds a state, growth stage, and growth timer. This creates the 5x5 grid of plots*/
-    this.grid = Array(5).fill().map(() => 
-      Array(5).fill().map(() => ({ state: 'empty', growthStage: 0, growthTimer: 0 }))
+    this.grid = Array(plotsAmonuntRow).fill().map(() => 
+      Array(plotsAmonuntCol).fill().map(() => ({ state: 'empty', growthStage: 0, growthTimer: 0 }))
     ); // Make grid with 'empty', growth stage 0, and growth timer 0
     this.plotSize = 100; // Size of each grid plot
     this.growthDuration = 5000; // Time (in ms) for a plant to grow to the next stage
@@ -34,7 +36,7 @@ class Farm{
 
   // Display the farm area on the map
   display() {
-    if(!this.isUIOpen && !storage.isUIOpen){
+    if(!this.isUIOpen && !storage.isUIOpen && !shop.isUIOpen){
     fill(0, 255, 0, 50); // Semi-transparent green for the farm radius
     noStroke();
     rectMode(CENTER);

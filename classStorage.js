@@ -19,7 +19,7 @@ class Storage {
     }
 
     display() {
-      if(!this.isUIOpen && !farm.isUIOpen){
+      if(!this.isUIOpen && !farm.isUIOpen && !shop.isUIOpen){
       fill(0, 255, 0, 50); // Semi-transparent green for the farm radius
       noStroke();
       rectMode(CENTER);
@@ -73,10 +73,10 @@ class Storage {
         this.isUIOpen = !this.isUIOpen;
     }
       
-     isPlayerNearby(player) {
+    isPlayerNearby(player) {
        const distance = dist(player.x, player.y, this.x, this.y);
        return distance <= 150; // Afstand spiller skal være indenfor
-     }    
+    }    
 }
 
   
