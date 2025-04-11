@@ -11,12 +11,12 @@ class Farm{
     this.harvestablePlot = harvestablePlot; // Image for harvestable plot
 
     // Mini-game grid (5x5)
-    let plotsAmonuntRow = 5; // Number of plots in each row - Note: Row is horisontal and columns is vertical.
-    let plotsAmonuntCol = 5; // Number of plots in each column
+    this.plotsAmountRow = 5; // Number of plots in each row - Note: Row is horisontal and columns is vertical.
+    this.plotsAmountCol = 5; // Number of plots in each column
     /* fill(), fills the array with maps that each holds 5 arrays, 
     that each holds a state, growth stage, and growth timer. This creates the 5x5 grid of plots*/
-    this.grid = Array(plotsAmonuntRow).fill().map(() => 
-      Array(plotsAmonuntCol).fill().map(() => ({ state: 'empty', growthStage: 0, growthTimer: 0 }))
+    this.grid = Array(this.plotsAmountRow).fill().map(() => 
+      Array(this.plotsAmountCol).fill().map(() => ({ state: 'empty', growthStage: 0, growthTimer: 0 }))
     ); // Make grid with 'empty', growth stage 0, and growth timer 0
     this.plotSize = 100; // Size of each grid plot
     this.growthDuration = 5000; // Time (in ms) for a plant to grow to the next stage
@@ -77,8 +77,8 @@ class Farm{
     const startX = (width - gridWidth) / 2; // Center the grid horizontally
     const startY = (height - gridHeight) / 2; // Center the grid vertically
 
-    for (let row = 0; row < 5; row++) { // Loop through rows that each holds 5 plots
-        for (let col = 0; col < 5; col++) {
+    for (let row = 0; row < this.plotsAmountRow; row++) { // Loop through rows that each holds 5 plots
+        for (let col = 0; col < this.plotsAmountCol; col++) {
           const x = startX + col * this.plotSize;
           const y = startY + row * this.plotSize;
   
@@ -102,8 +102,8 @@ class Farm{
 updateGrowth() {
   const currentTime = Date.now();
 
-  for (let row = 0; row < 5; row++) {
-    for (let col = 0; col < 5; col++) {
+  for (let row = 0; row < this.plotsAmountRow; row++) {
+    for (let col = 0; col < this.plotsAmountCol; col++) {
       const plot = this.grid[row][col];
 
       if (plot.state === 'planted') {
@@ -129,8 +129,8 @@ if (this.isUIOpen) {
   const startX = (width - gridWidth) / 2; // Center it horizontally
   const startY = (height - gridHeight) / 2; // Center it vertically
 
-    for (let row = 0; row < 5; row++) {
-        for (let col = 0; col < 5; col++) {
+    for (let row = 0; row < this.plotsAmountRow; row++) {
+        for (let col = 0; col < this.plotsAmountCol; col++) {
             const x = startX + col * this.plotSize;
             const y = startY + row * this.plotSize;
 

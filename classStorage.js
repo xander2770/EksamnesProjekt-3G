@@ -9,14 +9,6 @@ class Storage {
        this.isUIOpen = false;
        this.dia = dia
     }
-  
-    addPotatoes(amount) {
-      if (this.storedPotatoes + amount <= this.maxPotatoes) {
-        this.storedPotatoes += amount;
-        return true; // success
-      }
-      return false; // ikke plads nok
-    }
 
     display() {
       if(!this.isUIOpen && !farm.isUIOpen && !shop.isUIOpen){
@@ -29,46 +21,50 @@ class Storage {
 
     displayUI() {
       if (this.isUIOpen) {
-        fill(50, 50, 50, 200); // Baggrund til UI
-        rectMode(CENTER);
-        rect(width / 2, height / 2, 800, 600); // Grå UI-box
+        // UI background
+      fill(50, 50, 50, 200); // Semi-transparent dark background
+      rectMode(CENTER);
+      const uiW = width * 0.8; // Width of the UI box 
+      const uiH = height * 0.8;// Height of the UI box 
+      const uiX = width / 2; //Position - Ignore Same as above
+      const uiY = height / 2; //Position - Ignore Same as above
+      rect(uiX, uiY, uiW, uiH);
     
         fill(255);
         textAlign(CENTER, CENTER);
         textSize(20);
-        text("Storage UI", width / 2, height / 2 - 100);
+        text("Storage UI", uiX, uiY - uiH / 2 + 50);
 
-       storageCountText.html("Storage: " + storage.getStoredPotatoes() + " potatoes"); // Update the text with the current potato count
+        text("Storage: " + this.storedPotatoes + "/" + this.maxPotatoes + " potatoes", uiX, uiY - uiH / 2 + 100); // Update the text with the current potato count
       
-       deliverButton.show();
-       deliverInput.show();
-       collectButton.show();
-       collectInput.show();
-       
-      }else {
-        deliverButton.hide();
-        deliverInput.hide();
-        collectButton.hide();
-        collectInput.hide();
-        
+        // Draw the "Deliver" button rectangle
+    fill(0, 200, 0); // Green color for the button
+    rectMode(CORNER);
+    rect(330, 450, 100, 40); // Rectangle for the "Deliver" button
+
+    // Draw the "Collect" button rectangle
+    fill(0, 0, 200); // Blue color for the button
+    rect(330, 520, 100, 40); // Rectangle for the "Collect" button
+
+    // Add text to the Deliver and Collect button
+    fill(255);
+    textSize(16);
+    textAlign(CENTER, CENTER);
+    text("Deliver", 380, 470); // Center the text inside the button
+    text("Collect", 380, 540); // Center the text inside the button
+
+       // Check if the mouse is pressed and over the deliver button
+       if (mouseIsPressed && mouseX > 330 && mouseX < 430 && mouseY > 450 && mouseY < 490) {
+         this.deliverPotatoes(); // Continuously deliver potatoes
+       }
+
+        // Check if the mouse is pressed and over the collect button
+       if (mouseIsPressed && mouseX > 330 && mouseX < 430 && mouseY > 520 && mouseY < 560) {
+         this.collectPotatoes(); // Continuously collect potatoes
+       }
       }
    }
-
-    removePotatoes(amount) {
-      if (this.storedPotatoes >= amount) {
-        this.storedPotatoes -= amount;
-        return amount;
-      }
-      return 0; // ikke nok at tage
-    }
-  
-    getStoredPotatoes() {
-      return this.storedPotatoes;
-    }
-  
-    getMaxCapacity() {
-      return this.maxPotatoes;
-    }
+    
     toggleUI() {
         this.isUIOpen = !this.isUIOpen;
     }
@@ -77,6 +73,24 @@ class Storage {
        const distance = dist(player.x, player.y, this.x, this.y);
        return distance <= 150; // Afstand spiller skal være indenfor
     }    
-}
 
-  
+    deliverPotatoes() {
+      let amount = int(deliverInput.value());
+    
+      if (gameController.potato >= amount ) {
+        if (this.storedPotatoes + amount <= this.maxPotatoes) {
+          gameController.potato -= amount;
+          this.storedPotatoes += amount;
+        } 
+      } 
+    }
+    
+    collectPotatoes() {
+      let amount = int(collectInput.value());
+      
+      if (amount > 0 && this.storedPotatoes >= amount) {
+        gameController.potato += amount;
+        this.storedPotatoes -= amount;
+      }
+    }
+}

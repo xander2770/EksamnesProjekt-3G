@@ -91,25 +91,6 @@ function setup() {
   logoutButton.style("font-size", "16px");
   logoutButton.hide();
 
-  // Aflever kartofler til storage
-  deliverButton = createButton("Aflever kartofler").position(330, 450).mousePressed(deliverPotatoes);
-  deliverButton.style("background-color", "#20B2AA");
-  deliverButton.style("color", "white");
-  deliverButton.style("padding", "10px 20px");
-  deliverButton.style("border", "none");
-  deliverButton.style("border-radius", "5px");
-  deliverButton.style("font-size", "16px");
-  deliverButton.hide();
-
-  //Henter karotofler fra storage
-  collectButton = createButton("Hent kartofler").position(330, 520).mousePressed(collectPotatoes);
-  collectButton.style("background-color", "#20B2AA");
-  collectButton.style("color", "white");
-  collectButton.style("padding", "10px 20px");
-  collectButton.style("border", "none");
-  collectButton.style("border-radius", "5px");
-  collectButton.style("font-size", "16px");
-  collectButton.hide();
 
   // Input til antal kartofler der skal afleveres
   deliverInput = createInput("1", "number");
@@ -335,40 +316,7 @@ function logout() {
   console.log("User logged out. Returning to the start screen.");
 }
 
-function deliverPotatoes() {
-  let amount = int(deliverInput.value());
 
-  if (amount <= 0) {
-    alert("Du skal vælge et positivt antal kartofler!");
-    return;
-  }
-
-  if (gameController.potato >= amount) {
-    if (storage.addPotatoes(amount)) {
-      gameController.potato -= amount;
-    } else {
-      alert("Der er ikke plads nok i storage!");
-    }
-  } else {
-    alert("Du har ikke nok kartofler!");
-  }
-}
-
-function collectPotatoes() {
-  let amount = int(collectInput.value());
-
-  if (amount <= 0) {
-    alert("Du skal vælge et positivt antal kartofler!");
-    return;
-  }
-
-  const taken = storage.removePotatoes(amount);
-  if (taken > 0) {
-    gameController.potato += taken;
-  } else {
-    alert("Ingen kartofler i storage!");
-  }
-}
 
 function keyPressed() {
   if (key === 'e' || key === 'E') {
@@ -414,3 +362,4 @@ function mousePressed() {
     farm.handleMouseClick(mouseX, mouseY);
   }
 }
+
