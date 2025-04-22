@@ -223,7 +223,7 @@ function startGame() {
         // Load progress if username exists
         const userData = usernames[username]; // Retrieve data for the specific username
         gameController = new GameController();
-        gameController.updateCoinsAndPotatoes(userData.coins, userData.potato);
+        gameController.updateCoinsAndPotatoes(userData.coins, userData.potato, userData.storageLevel, userData.growthLevel); // Update the gameController with the loaded data
         
         //debugging
         console.log("Logged ind som username: " + username);
@@ -238,12 +238,14 @@ function startGame() {
             database.collection("eksgameTest").doc("usernames").update({
             [username]: {
               coins: 0,
-              potato: 0
+              potato: 0,
+              storageLevel: 0,
+              growthLevel: 0
             }
             }).then(() => {
             console.log("Logged ind som ny username: " + username);
             gameController = new GameController();
-            gameController.updateCoinsAndPotatoes(0, 0);
+            gameController.updateCoinsAndPotatoes(0, 0, 0, 0);
             loadGame();
           });
         }
@@ -294,6 +296,19 @@ function logout() {
   username = "";
   gameController = null;
   player = null;
+
+  
+    shop.sellDropdown.remove();
+    shop.sellDropdown = null;
+  
+  
+    shop.sellButton.remove();
+    shop.sellButton = null;
+  
+  
+    shop.upgradeButton.remove();
+    shop.upgradeButton = null;
+  
 
   // Close the settings menu and rotate back if it's open
   //Note: Right now it rotates back when you start thne game again, if you should be already rotated, we need rotate it in drawStartScreen.
