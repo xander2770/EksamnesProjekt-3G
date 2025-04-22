@@ -55,6 +55,10 @@ function preload(){
     for (let i = 1; i <= 3; i++) {
         potatoPlantedPlot.push(loadImage(`images/FarmImages/potatoPlantedPlot${i}.png`)); 
     }
+
+  emptyImage = loadImage('images/StorageImages/emptyStorage.png'); // Load the empty storage image
+  halfFullImage = loadImage('images/StorageImages/halfFullStorage.png'); // Load the half-full storage image
+  fullImage = loadImage('images/StorageImages/fullStorage.png'); // Load the full storage image
 }
 
 function setup() {
