@@ -10,6 +10,7 @@ class Storage {
        this.dia = dia
        this.delayAmount = 5 // Delay for the deliver and collect buttons
        this.delayCurrent = 0
+       this.imageToDisplay;
     }
 
     display() {
@@ -41,21 +42,23 @@ class Storage {
       
       const fullness = (this.storedPotatoes / this.maxPotatoes) * 100; // Calculate fullness percentage
 
-      let imageToDisplay;
+      
       if (fullness === 0) {
-          imageToDisplay = emptyBox; // Replace with your empty storage image
+          this.imageToDisplay = emptyImage; // Replace with your empty storage image
       } else if (fullness > 0 && fullness <= 25) {
-          imageToDisplay = Stage1; // Replace with your 25% full storage image
+          this.imageToDisplay = quarterFullImage; // Replace with your 25% full storage image
       } else if (fullness > 25 && fullness <= 50) {
-          imageToDisplay = Stage2; // Replace with your 50% full storage image
+          this.imageToDisplay = halfFullImage; // Replace with your 50% full storage image
       } else if (fullness > 50 && fullness <= 75) {
-          imageToDisplay = Stage3; // Replace with your 75% full storage image
+          this.imageToDisplay = threeQuarterFullImage; // Replace with your 75% full storage image
       } else {
-          imageToDisplay = Stage4; // Replace with your full storage image
+          this.imageToDisplay = fullImage; // Replace with your full storage image
       }
 
+      if(!this.imageToDisplay == null){
       imageMode(CENTER);
       image(imageToDisplay, uiX, uiY, 200, 200); // Display the image in the center of the UI
+      }
 
       // Draw the "Deliver" button rectangle
       fill(0, 200, 0); // Green color for the button
