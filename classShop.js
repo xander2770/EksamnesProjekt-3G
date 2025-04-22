@@ -31,6 +31,7 @@ class Shop {
       text("Shop UI", width / 2, height / 2 - 100);
       text("Select Bundle Size and Sell Potatoes", width / 2, height / 2 - 50);
       text("Upgrade Storage Cost: "+this.upgradeCost, width / 2, height / 2 + 100);
+      text("Storage Level: " + gameController.storageLevel, width / 2, height / 2 + 150);
 
       const uiLeftX = width / 2 - 400; // Left edge of the gray UI box
       const uiTopY = height / 2 - 300; // Top edge of the gray UI box
@@ -108,7 +109,8 @@ class Shop {
   }
 
   upgradeStorage() {
-    if (gameController.coins >= this.upgradeCost) {
+    if (gameController.coins >= this.upgradeCost && gameController.storageLevel < 10) {
+      gameController.storageLevel += 1; // Increase storage level
       gameController.coins -= this.upgradeCost; // Deduct coins from the player
       storage.maxPotatoes *= 2; // Double the storage capacity
       console.log(`Storage upgraded! New capacity: ${storage.maxPotatoes}`);

@@ -297,6 +297,19 @@ function logout() {
   gameController = null;
   player = null;
 
+  
+    shop.sellDropdown.remove();
+    shop.sellDropdown = null;
+  
+  
+    shop.sellButton.remove();
+    shop.sellButton = null;
+  
+  
+    shop.upgradeButton.remove();
+    shop.upgradeButton = null;
+  
+
   // Close the settings menu and rotate back if it's open
   //Note: Right now it rotates back when you start thne game again, if you should be already rotated, we need rotate it in drawStartScreen.
   if (rotationTarget === 180) { // If the settings menu is open
