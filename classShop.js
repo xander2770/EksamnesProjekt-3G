@@ -6,8 +6,10 @@ class Shop {
     this.isUIOpen = false;
     this.sellButton = null; // Central sell button
     this.sellDropdown = null; // Dropdown for selecting bundle size
-    this.upgradeButton = null; // Button for upgrading storage
-    this.upgradeCost = 100; // Initial cost to upgrade storage
+    this.upgradeButton = null;
+    this.upgradeGrowthButton = null; // Button for upgrading storage
+    this.upgradeCost = 100;
+    this.upgradeGrowthCost = 100; // Initial cost to upgrade storage
   }
 
   display() {
@@ -79,6 +81,20 @@ class Shop {
           this.upgradeStorage();
         });
       }
+
+      if(!this.upgradeGrowthButton){
+        this.upgradeGrowthButton = createButton("Upgrade Growth Rate");
+        this.upgradeGrowthButton.position(uiLeftX + 20, uiTopY + 200); // Below the dropdown
+        this.upgradeGrowthButton.size(150, 50);
+        this.upgradeGrowthButton.style("background-color", "blue");
+        this.upgradeGrowthButton.style("color", "white");
+        this.upgradeGrowthButton.style("border", "none");
+        this.upgradeGrowthButton.style("border-radius", "5px");
+        this.upgradeGrowthButton.style("font-size", "16px");
+        this.upgradeGrowthButton.mousePressed(() => {
+          this.upgradeGrowth();
+        });
+      }
     } else {
       // Remove the dropdown, sell button, and upgrade button when the UI is closed
       if (this.sellDropdown) {
@@ -92,6 +108,10 @@ class Shop {
       if (this.upgradeButton) {
         this.upgradeButton.remove();
         this.upgradeButton = null;
+      }
+      if (this.upgradeGrowthButton) {
+        this.upgradeGrowthButton.remove();
+        this.upgradeGrowthButton = null;
       }
     }
   }
@@ -122,6 +142,19 @@ class Shop {
       console.log("Not enough coins to upgrade storage.");
     }
   }
+
+  upgradeGrowth() {
+    if (gameController.coins >= this.upgradeGrowthCost && gameController.growthLevel < 10) {
+      gameController.growthLevel += 1; // Increase growth rate by 50%
+      gameController.coins -= this.upgradeGrowthCost; // Deduct coins from the player
+      farm.growthDuration *= 1.5; // Increase growth rate by 50%
+      console.log(`Growth rate upgraded! New growth rate: ${gameController.growthRate}`);
+      this.upgradeGrowthCost *= 2; // Double the cost for the next upgrade
+    } else {
+      console.log("Not enough coins to upgrade growth rate.");
+    }
+  }
+  
 
   toggleUI() {
     this.isUIOpen = !this.isUIOpen;
