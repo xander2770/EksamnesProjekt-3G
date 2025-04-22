@@ -8,6 +8,8 @@ class Storage {
        this.storedPotatoes = 0;
        this.isUIOpen = false;
        this.dia = dia
+       this.delayAmount = 5 // Delay for the deliver and collect buttons
+       this.delayCurrent = 0
     }
 
     display() {
@@ -53,6 +55,10 @@ class Storage {
     text("Deliver", 380, 470); // Center the text inside the button
     text("Collect", 380, 540); // Center the text inside the button
 
+
+   // Add an delay to how fast you deliver and collect potatoes, that works by frames
+   this.delayCurrent++ 
+   if(this.delayCurrent >= this.delayAmount){
        // Check if the mouse is pressed and over the deliver button
        if (mouseIsPressed && mouseX > 330 && mouseX < 430 && mouseY > 450 && mouseY < 490) {
          this.deliverPotatoes(); // Continuously deliver potatoes
@@ -62,7 +68,9 @@ class Storage {
        if (mouseIsPressed && mouseX > 330 && mouseX < 430 && mouseY > 520 && mouseY < 560) {
          this.collectPotatoes(); // Continuously collect potatoes
        }
+       this.delayCurrent = 0 // Reset the delay counter
       }
+    }
    }
     
     toggleUI() {
