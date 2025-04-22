@@ -3,6 +3,8 @@ class GameController {
     constructor() {
       this.coins
       this.potato
+      this.storageLevel
+      this.growthLevel
       this.autoSaveInterval = null;
       this.saveNotification = "";
       this.saveNotificationTimeout = null;
@@ -12,9 +14,11 @@ class GameController {
     }
   
     // To update coins and potatoes
-    updateCoinsAndPotatoes(coins, potato) {
+    updateCoinsAndPotatoes(coins, potato, storageLevel, growthLevel) {
       this.coins = coins;
       this.potato = potato;
+      this.storageLevel = storageLevel; // Store the storage level
+      this.growthLevel = growthLevel; // Store the grow level
     }
   
     // To add coins
@@ -86,7 +90,9 @@ class GameController {
         database.collection("eksgameTest").doc("usernames").update({
           [username]: {
             coins: this.coins,
-            potato: this.potato
+            potato: this.potato,
+            storageLevel: this.storageLevel, // Save the storage level
+            growthLevel: this.growthLevel // Save the growth level
           }
         }).then(() => {
           //debugging
