@@ -56,11 +56,11 @@ function preload(){
         potatoPlantedPlot.push(loadImage(`images/FarmImages/potatoPlantedPlot${i}.png`)); 
     }
 
-    emptyImage = loadImage('images/StorageImages/Empty Box.png');
-    quarterFullImage = loadImage('images/StorageImages/Stadie 1.png');
-    halfFullImage = loadImage('images/StorageImages/Stadie 2.png');
-    threeQuarterFullImage = loadImage('images/StorageImages/Stadie 3.png');
-    fullImage = loadImage('images/StorageImages/Stadie 4.png');
+    emptyImage = loadImage('images/StorageImages/Empty_Box.png');
+    quarterFullImage = loadImage('images/StorageImages/Stadie_1.png');
+    halfFullImage = loadImage('images/StorageImages/Stadie_2.png');
+    threeQuarterFullImage = loadImage('images/StorageImages/Stadie_3.png');
+    fullImage = loadImage('images/StorageImages/Stadie_4.png');
 }
 
 function setup() {
