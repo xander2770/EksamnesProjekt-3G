@@ -6,6 +6,8 @@ class Shop {
     this.isUIOpen = false;
     this.sellButton = null; // Central sell button
     this.sellDropdown = null; // Dropdown for selecting bundle size
+    this.upgradeButton = null; // Button for upgrading storage
+    this.upgradeCost = 100; // Initial cost to upgrade storage
   }
 
   display() {
@@ -19,9 +21,9 @@ class Shop {
 
   displayUI() {
     if (this.isUIOpen) {
-      fill(50, 50, 50, 200); // Baggrund til UI
+      fill(50, 50, 50, 200); // Background for UI
       rectMode(CENTER);
-      rect(width / 2, height / 2, 800, 600); // Grå UI-box
+      rect(width / 2, height / 2, 800, 600); // Gray UI box
 
       fill(255);
       textAlign(CENTER, CENTER);
@@ -60,8 +62,23 @@ class Shop {
         this.sellDropdown.option("100");
         this.sellDropdown.style("font-size", "14px");
       }
+
+      // Create the "Upgrade Storage" button if it doesn't exist
+      if (!this.upgradeButton) {
+        this.upgradeButton = createButton("Upgrade Storage");
+        this.upgradeButton.position(uiLeftX + 20, uiTopY + 140); // Below the dropdown
+        this.upgradeButton.size(150, 50);
+        this.upgradeButton.style("background-color", "blue");
+        this.upgradeButton.style("color", "white");
+        this.upgradeButton.style("border", "none");
+        this.upgradeButton.style("border-radius", "5px");
+        this.upgradeButton.style("font-size", "16px");
+        this.upgradeButton.mousePressed(() => {
+          this.upgradeStorage();
+        });
+      }
     } else {
-      // Remove the dropdown and button when the UI is closed
+      // Remove the dropdown, sell button, and upgrade button when the UI is closed
       if (this.sellDropdown) {
         this.sellDropdown.remove();
         this.sellDropdown = null;
@@ -69,6 +86,10 @@ class Shop {
       if (this.sellButton) {
         this.sellButton.remove();
         this.sellButton = null;
+      }
+      if (this.upgradeButton) {
+        this.upgradeButton.remove();
+        this.upgradeButton = null;
       }
     }
   }
@@ -85,12 +106,26 @@ class Shop {
     }
   }
 
+  upgradeStorage() {
+    if (gameController.coins >= this.upgradeCost) {
+      gameController.coins -= this.upgradeCost; // Deduct coins from the player
+      storage.maxPotatoes *= 2; // Double the storage capacity
+      console.log(`Storage upgraded! New capacity: ${storage.maxPotatoes}`);
+      console.log(`Coins deducted: ${this.upgradeCost}`);
+
+      this.upgradeCost *= 2; // Double the cost for the next upgrade
+      console.log(`Next upgrade cost: ${this.upgradeCost}`);
+    } else {
+      console.log("Not enough coins to upgrade storage.");
+    }
+  }
+
   toggleUI() {
     this.isUIOpen = !this.isUIOpen;
   }
 
   isPlayerNearby(player) {
     const distance = dist(player.x, player.y, this.x, this.y);
-    return distance <= 150; // Afstand spiller skal være indenfor
+    return distance <= 150; // Distance player must be within
   }
 }
