@@ -56,9 +56,7 @@ function preload(){
         potatoPlantedPlot.push(loadImage(`images/FarmImages/potatoPlantedPlot${i}.png`)); 
     }
 
-  emptyImage = loadImage('images/StorageImages/emptyStorage.png'); // Load the empty storage image
-  halfFullImage = loadImage('images/StorageImages/halfFullStorage.png'); // Load the half-full storage image
-  fullImage = loadImage('images/StorageImages/fullStorage.png'); // Load the full storage image
+  
 }
 
 function setup() {
@@ -141,6 +139,8 @@ function drawGame() {
   fill(0);
   text("Coins: " + gameController.coins, 55, 30);
   text("Potatoes: " + gameController.potato, 55, 50);
+  text("Storage Level: " + gameController.storageLevel, 55, 70);
+  text("Growth Level: " + gameController.growthLevel, 55, 90);
 
   // Display the save notification if it exists
   if (gameController.saveNotification) {
