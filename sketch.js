@@ -316,6 +316,9 @@ function logout() {
   
     shop.upgradeButton.remove();
     shop.upgradeButton = null;
+
+    shop.upgradeGrowthButton.remove();
+    shop.upgradeGrowthButton = null;
   
 
   // Close the settings menu and rotate back if it's open
