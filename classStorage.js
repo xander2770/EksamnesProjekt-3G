@@ -43,13 +43,15 @@ class Storage {
 
       let imageToDisplay;
       if (fullness === 0) {
-          imageToDisplay = emptyImage; // Replace with your empty storage image
-      } else if (fullness > 0 && fullness <= 50) {
-          imageToDisplay = halfFullImage; // Replace with your half-full storage image
-      } else if (fullness > 50 && fullness < 100) {
-          imageToDisplay = almostFullImage; // Replace with your almost-full storage image
+          imageToDisplay = emptyBox; // Replace with your empty storage image
+      } else if (fullness > 0 && fullness <= 25) {
+          imageToDisplay = Stage1; // Replace with your 25% full storage image
+      } else if (fullness > 25 && fullness <= 50) {
+          imageToDisplay = Stage2; // Replace with your 50% full storage image
+      } else if (fullness > 50 && fullness <= 75) {
+          imageToDisplay = Stage3; // Replace with your 75% full storage image
       } else {
-          imageToDisplay = fullImage; // Replace with your full storage image
+          imageToDisplay = Stage4; // Replace with your full storage image
       }
 
       imageMode(CENTER);
