@@ -39,38 +39,56 @@ class Storage {
 
         text("Storage: " + this.storedPotatoes + "/" + this.maxPotatoes + " potatoes", uiX, uiY - uiH / 2 + 100); // Update the text with the current potato count
       
-        // Draw the "Deliver" button rectangle
-    fill(0, 200, 0); // Green color for the button
-    rectMode(CORNER);
-    rect(330, 450, 100, 40); // Rectangle for the "Deliver" button
+      const fullness = (this.storedPotatoes / this.maxPotatoes) * 100; // Calculate fullness percentage
 
-    // Draw the "Collect" button rectangle
-    fill(0, 0, 200); // Blue color for the button
-    rect(330, 520, 100, 40); // Rectangle for the "Collect" button
-
-    // Add text to the Deliver and Collect button
-    fill(255);
-    textSize(16);
-    textAlign(CENTER, CENTER);
-    text("Deliver", 380, 470); // Center the text inside the button
-    text("Collect", 380, 540); // Center the text inside the button
-
-
-   // Add an delay to how fast you deliver and collect potatoes, that works by frames
-   this.delayCurrent++ 
-   if(this.delayCurrent >= this.delayAmount){
-       // Check if the mouse is pressed and over the deliver button
-       if (mouseIsPressed && mouseX > 330 && mouseX < 430 && mouseY > 450 && mouseY < 490) {
-         this.deliverPotatoes(); // Continuously deliver potatoes
-       }
-
-        // Check if the mouse is pressed and over the collect button
-       if (mouseIsPressed && mouseX > 330 && mouseX < 430 && mouseY > 520 && mouseY < 560) {
-         this.collectPotatoes(); // Continuously collect potatoes
-       }
-       this.delayCurrent = 0 // Reset the delay counter
+      let imageToDisplay;
+      if (fullness === 0) {
+          imageToDisplay = emptyBox; // Replace with your empty storage image
+      } else if (fullness > 0 && fullness <= 25) {
+          imageToDisplay = Stage1; // Replace with your 25% full storage image
+      } else if (fullness > 25 && fullness <= 50) {
+          imageToDisplay = Stage2; // Replace with your 50% full storage image
+      } else if (fullness > 50 && fullness <= 75) {
+          imageToDisplay = Stage3; // Replace with your 75% full storage image
+      } else {
+          imageToDisplay = Stage4; // Replace with your full storage image
       }
-    }
+
+      imageMode(CENTER);
+      image(imageToDisplay, uiX, uiY, 200, 200); // Display the image in the center of the UI
+
+      // Draw the "Deliver" button rectangle
+      fill(0, 200, 0); // Green color for the button
+      rectMode(CORNER);
+      rect(330, 450, 100, 40); // Rectangle for the "Deliver" button
+
+      // Draw the "Collect" button rectangle
+      fill(0, 0, 200); // Blue color for the button
+      rect(330, 520, 100, 40); // Rectangle for the "Collect" button
+
+      // Add text to the Deliver and Collect button
+      fill(255);
+      textSize(16);
+      textAlign(CENTER, CENTER);
+      text("Deliver", 380, 470); // Center the text inside the button
+      text("Collect", 380, 540); // Center the text inside the button
+
+
+      // Add an delay to how fast you deliver and collect potatoes, that works by frames
+      this.delayCurrent++ 
+      if(this.delayCurrent >= this.delayAmount){
+          // Check if the mouse is pressed and over the deliver button
+          if (mouseIsPressed && mouseX > 330 && mouseX < 430 && mouseY > 450 && mouseY < 490) {
+            this.deliverPotatoes(); // Continuously deliver potatoes
+          }
+
+            // Check if the mouse is pressed and over the collect button
+          if (mouseIsPressed && mouseX > 330 && mouseX < 430 && mouseY > 520 && mouseY < 560) {
+            this.collectPotatoes(); // Continuously collect potatoes
+          }
+          this.delayCurrent = 0 // Reset the delay counter
+          }
+      }
    }
     
     toggleUI() {
