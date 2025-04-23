@@ -34,6 +34,8 @@ class Shop {
       text("Select Bundle Size and Sell Potatoes", width / 2, height / 2 - 50);
       text("Upgrade Storage Cost: "+this.upgradeCost, width / 2, height / 2 + 100);
       text("Storage Level: " + gameController.storageLevel, width / 2, height / 2 + 150);
+      text("Upgrade Growth Cost: " + this.upgradeGrowthCost, width / 2, height / 2 + 200);
+      text("Growth Level: " + gameController.growthLevel, width / 2, height / 2 + 250);
 
       const uiLeftX = width / 2 - 400; // Left edge of the gray UI box
       const uiTopY = height / 2 - 300; // Top edge of the gray UI box
