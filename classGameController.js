@@ -20,6 +20,12 @@ class GameController {
       this.storageLevel = storageLevel; // Store the storage level
       this.growthLevel = growthLevel; // Store the grow level
     }
+
+    loadUpgradeLevels(storageLevel, growthLevel) {
+      this.storageLevel = storageLevel; // Store the storage level
+      this.growthLevel = growthLevel; // Store the grow level
+    }
+
   
     // To add coins
     addCoins(amount) {

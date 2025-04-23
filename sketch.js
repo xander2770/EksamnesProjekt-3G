@@ -232,7 +232,8 @@ function startGame() {
         const userData = usernames[username]; // Retrieve data for the specific username
         gameController = new GameController();
         gameController.updateCoinsAndPotatoes(userData.coins, userData.potato, userData.storageLevel, userData.growthLevel); // Update the gameController with the loaded data
-        
+        gameController.loadUpgradeLevels(userData.storageLevel, userData.growthLevel); // Load the upgrade levels
+
         //debugging
         console.log("Logged ind som username: " + username);
         console.log("Coins: " + gameController.coins);
@@ -254,6 +255,7 @@ function startGame() {
             console.log("Logged ind som ny username: " + username);
             gameController = new GameController();
             gameController.updateCoinsAndPotatoes(0, 0, 0, 0);
+            gameController.loadUpgradeLevels(0,0)
             loadGame();
           });
         }
