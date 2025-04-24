@@ -55,9 +55,9 @@ class Storage {
           this.imageToDisplay = fullImage; // Replace with your full storage image
       }
 
-      if(!this.imageToDisplay == null){
+      if(this.imageToDisplay != null){
       imageMode(CENTER);
-      image(imageToDisplay, uiX, uiY, 200, 200); // Display the image in the center of the UI
+      image(this.imageToDisplay, uiX, uiY, 200, 200); // Display the image in the center of the UI
       }
 
       // Draw the "Deliver" button rectangle
