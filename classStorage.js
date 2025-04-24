@@ -80,18 +80,18 @@ class Storage {
       // Draw the "Deliver" button rectangle
       fill(0, 200, 0); // Green color for the button
       rectMode(CORNER);
-      rect(330, 450, 100, 40); // Rectangle for the "Deliver" button
+      rect(170, 450, 100, 40); // Rectangle for the "Deliver" button
 
       // Draw the "Collect" button rectangle
       fill(0, 0, 200); // Blue color for the button
-      rect(330, 520, 100, 40); // Rectangle for the "Collect" button
+      rect(170, 520, 100, 40); // Rectangle for the "Collect" button
 
       // Add text to the Deliver and Collect button
       fill(255);
       textSize(16);
       textAlign(CENTER, CENTER);
-      text("Deliver", 380, 470); // Center the text inside the button
-      text("Collect", 380, 540); // Center the text inside the button
+      text("Deliver", 220, 470); // Center the text inside the button
+      text("Collect", 220, 540); // Center the text inside the button
 
 
       // Add an delay to how fast you deliver and collect potatoes, that works by frames
