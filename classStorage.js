@@ -98,13 +98,13 @@ class Storage {
       this.delayCurrent++ 
       if(this.delayCurrent >= this.delayAmount){
           // Check if the mouse is pressed and over the deliver button
-          if (mouseIsPressed && mouseX > 330 && mouseX < 430 && mouseY > 450 && mouseY < 490) {
+          if (mouseIsPressed && mouseX > 170 && mouseX < 270 && mouseY > 450 && mouseY < 490) {
             this.deliverPotatoes(); // Continuously deliver potatoes
           }
 
             // Check if the mouse is pressed and over the collect button
-          if (mouseIsPressed && mouseX > 330 && mouseX < 430 && mouseY > 520 && mouseY < 560) {
-            this.collectPotatoes(); // Continuously collect potatoes
+            if (mouseIsPressed && mouseX > 170 && mouseX < 270 && mouseY > 520 && mouseY < 560) {
+              this.collectPotatoes(); // Continuously collect potatoes
           }
           this.delayCurrent = 0 // Reset the delay counter
           }

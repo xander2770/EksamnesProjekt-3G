@@ -100,13 +100,13 @@ function setup() {
 
   // Input til antal kartofler der skal afleveres
   deliverInput = createInput("1", "number");
-  deliverInput.position(500, 460);
+  deliverInput.position(170, 460);
   deliverInput.size(40);
   deliverInput.hide();
 
   // Input til antal kartofler der skal hentes
   collectInput = createInput("1", "number");
-  collectInput.position(500, 530);
+  collectInput.position(170, 530);
   collectInput.size(40);
   collectInput.hide();
 
