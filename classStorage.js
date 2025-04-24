@@ -40,25 +40,42 @@ class Storage {
 
         text("Storage: " + this.storedPotatoes + "/" + this.maxPotatoes + " potatoes", uiX, uiY - uiH / 2 + 100); // Update the text with the current potato count
       
-      const fullness = (this.storedPotatoes / this.maxPotatoes) * 100; // Calculate fullness percentage
-
-      
-      if (fullness === 0) {
-          this.imageToDisplay = emptyImage; // Replace with your empty storage image
-      } else if (fullness > 0 && fullness <= 25) {
-          this.imageToDisplay = quarterFullImage; // Replace with your 25% full storage image
-      } else if (fullness > 25 && fullness <= 50) {
-          this.imageToDisplay = halfFullImage; // Replace with your 50% full storage image
-      } else if (fullness > 50 && fullness <= 75) {
-          this.imageToDisplay = threeQuarterFullImage; // Replace with your 75% full storage image
-      } else {
-          this.imageToDisplay = fullImage; // Replace with your full storage image
-      }
-
-      if(this.imageToDisplay != null){
-      imageMode(CENTER);
-      image(this.imageToDisplay, uiX, uiY, 200, 200); // Display the image in the center of the UI
-      }
+        const boxSize = 20;
+        const numBoxes = this.maxPotatoes / boxSize;
+        
+        const boxesPerRow = 4; // Hvor mange kasser du vil have per række
+        const spacingX = 220; // Afstand mellem kasser (vandret)
+        const spacingY = 180; // Afstand mellem rækker (lodret)
+        
+        for (let i = 0; i < numBoxes; i++) {
+          let potatoesInBox = this.storedPotatoes - (i * boxSize);
+          potatoesInBox = constrain(potatoesInBox, 0, boxSize);
+        
+          const fullness = potatoesInBox / boxSize;
+        
+          let boxImage;
+          if (fullness === 0) {
+            boxImage = emptyImage;
+          } else if (fullness <= 0.25) {
+            boxImage = quarterFullImage;
+          } else if (fullness <= 0.5) {
+            boxImage = halfFullImage;
+          } else if (fullness <= 0.75) {
+            boxImage = threeQuarterFullImage;
+          } else {
+            boxImage = fullImage;
+          }
+        
+          const row = Math.floor(i / boxesPerRow); // Hvilken række vi er i
+          const col = i % boxesPerRow; // Hvilken kolonne
+        
+          const x = uiX + (col - (boxesPerRow - 1) / 2) * spacingX;
+          const y = uiY - 50 + row * spacingY;
+        
+          imageMode(CENTER);
+          image(boxImage, x, y, 200, 200);
+        }
+        
 
       // Draw the "Deliver" button rectangle
       fill(0, 200, 0); // Green color for the button
