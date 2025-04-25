@@ -231,9 +231,9 @@ function startGame() {
         // Load progress if username exists
         const userData = usernames[username]; // Retrieve data for the specific username
         gameController = new GameController();
-        gameController.updateCoinsAndPotatoes(userData.coins, userData.potato, userData.storageLevel, userData.growthLevel, userData.storedPotatoes); // Update the gameController with the loaded data
         loadGame();/* Load the game after creating a new save.
         (Needs to load game before loading Upgrade levels, because that function uses farm and storage classes, and they are first made in loadgame)*/
+        gameController.updateCoinsAndPotatoes(userData.coins, userData.potato, userData.storageLevel, userData.growthLevel, userData.storedPotatoes); // Update the gameController with the loaded data
         gameController.loadUpgradeLevels(userData.storageLevel, userData.growthLevel); // Load the upgrade levels
 
         //debugging
@@ -253,9 +253,9 @@ function startGame() {
             }).then(() => {
             console.log("Logged ind som ny username: " + username);
             gameController = new GameController();
-            gameController.updateCoinsAndPotatoes(0, 0, 0, 0);
             loadGame(); /* Load the game after creating a new save.
             (Needs to load game before loading Upgrade levels, because that function uses farm and storage classes, and they are first made in loadgame)*/
+            gameController.updateCoinsAndPotatoes(0, 0, 0, 0, 0);
             gameController.loadUpgradeLevels(0,0)
           });
         }
@@ -307,21 +307,25 @@ function logout() {
   gameController = null;
   player = null;
 
-  
+  if(shop.sellDropdown){
     shop.sellDropdown.remove();
     shop.sellDropdown = null;
+  }
   
-  
+  if(shop.sellButton){
     shop.sellButton.remove();
     shop.sellButton = null;
+  }
   
-  
+  if(shop.upgradeButton){
     shop.upgradeButton.remove();
     shop.upgradeButton = null;
+  }
 
+  if(shop.upgradeGrowthButton){
     shop.upgradeGrowthButton.remove();
     shop.upgradeGrowthButton = null;
-  
+  }
 
   // Close the settings menu and rotate back if it's open
   //Note: Right now it rotates back when you start thne game again, if you should be already rotated, we need rotate it in drawStartScreen.
