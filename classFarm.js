@@ -19,7 +19,7 @@ class Farm{
       Array(this.plotsAmountCol).fill().map(() => ({ state: 'empty', growthStage: 0, growthTimer: 0 }))
     ); // Make grid with 'empty', growth stage 0, and growth timer 0
     this.plotSize = 100; // Size of each grid plot
-    this.growthDuration = 5000; // Time (in ms) for a plant to grow to the next stage
+    this.growthDuration // Time (in ms) for a plant to grow to the next stage
   }
 
   // To check if the player is within the interaction radius by using dist function
@@ -96,6 +96,25 @@ class Farm{
         
         }
     }
+}
+
+setGrowthDuration(level) {
+  const baseDuration = 10000; // Base growth duration for level 1
+  const decrement = 500; // Decrease in duration per level
+  let calculatedDuration = baseDuration;
+
+  // Use a for loop to decrement the duration for each level
+  for (let i = 1; i < level; i++) {
+    calculatedDuration -= decrement;
+  }
+
+  // Ensure the duration does not go below 500ms
+  if (calculatedDuration < 500) {
+    calculatedDuration = 500;
+  }
+
+  this.growthDuration = calculatedDuration;
+  console.log(`Growth duration set to ${this.growthDuration} ms for level ${level}`);
 }
 
 // Update the growth of plants

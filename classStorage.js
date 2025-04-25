@@ -139,4 +139,17 @@ class Storage {
         this.storedPotatoes -= amount;
       }
     }
+
+    setStorageCapacity(level) {
+      const baseCapacity = 20; // Base storage capacity for level 0
+      let calculatedCapacity = baseCapacity;
+    
+      // Use a for loop to increment the capacity for each level
+      for (let i = 1; i <= level; i++) {
+        calculatedCapacity *= 2; // Double the capacity for each level
+      }
+    
+      this.maxPotatoes = calculatedCapacity;
+      console.log(`Storage capacity set to ${this.maxPotatoes} for level ${level}`);
+    }
 }

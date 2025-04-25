@@ -24,6 +24,9 @@ class GameController {
     loadUpgradeLevels(storageLevel, growthLevel) {
       this.storageLevel = storageLevel; // Store the storage level
       this.growthLevel = growthLevel; // Store the grow level
+
+      farm.setGrowthDuration(this.growthLevel); // Set the growth duration based on the new growth level
+      storage.setStorageCapacity(this.storageLevel); // Set the storage capacity based on the new level
     }
 
   

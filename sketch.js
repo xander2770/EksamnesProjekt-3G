@@ -142,7 +142,7 @@ function drawGame() {
   textSize(16);
   fill(0);
   text("Coins: " + gameController.coins, 65, 30);
-  text("Potatoes: " + gameController.potato, 65, 50);
+  text("Potatoes in Pocket: " + gameController.potato, 65, 50);
   text("Storage Level: " + gameController.storageLevel, 65, 70);
   text("Growth Level: " + gameController.growthLevel, 65, 90);
 
@@ -232,6 +232,8 @@ function startGame() {
         const userData = usernames[username]; // Retrieve data for the specific username
         gameController = new GameController();
         gameController.updateCoinsAndPotatoes(userData.coins, userData.potato, userData.storageLevel, userData.growthLevel); // Update the gameController with the loaded data
+        loadGame();/* Load the game after creating a new save.
+        (Needs to load game before loading Upgrade levels, because that function uses farm and storage classes, and they are first made in loadgame)*/
         gameController.loadUpgradeLevels(userData.storageLevel, userData.growthLevel); // Load the upgrade levels
 
         //debugging
@@ -239,7 +241,7 @@ function startGame() {
         console.log("Coins: " + gameController.coins);
         console.log("Potatoes: " + gameController.potato);
 
-        loadGame();
+        
       } else {
         // Ask the player if they want to create a new save
         let createNewSave = confirm("No save file found for this username. Do you want to create a new save?");
@@ -255,8 +257,9 @@ function startGame() {
             console.log("Logged ind som ny username: " + username);
             gameController = new GameController();
             gameController.updateCoinsAndPotatoes(0, 0, 0, 0);
+            loadGame(); /* Load the game after creating a new save.
+            (Needs to load game before loading Upgrade levels, because that function uses farm and storage classes, and they are first made in loadgame)*/
             gameController.loadUpgradeLevels(0,0)
-            loadGame();
           });
         }
       }
