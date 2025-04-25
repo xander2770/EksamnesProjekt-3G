@@ -141,10 +141,10 @@ function drawGame() {
   // Display coins and potatoes
   textSize(16);
   fill(0);
-  text("Coins: " + gameController.coins, 65, 30);
-  text("Potatoes in Pocket: " + gameController.potato, 65, 50);
-  text("Storage Level: " + gameController.storageLevel, 65, 70);
-  text("Growth Level: " + gameController.growthLevel, 65, 90);
+  text("Coins: " + gameController.coins, 90, 30);
+  text("Potatoes in Pocket: " + gameController.potato, 90, 50);
+  text("Storage Level: " + gameController.storageLevel, 90, 70);
+  text("Growth Level: " + gameController.growthLevel, 90, 90);
 
   // Display the save notification if it exists
   if (gameController.saveNotification) {
