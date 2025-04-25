@@ -14,11 +14,15 @@ class GameController {
     }
   
     // To update coins and potatoes
-    updateCoinsAndPotatoes(coins, potato, storageLevel, growthLevel) {
+    updateCoinsAndPotatoes(coins, potato, storageLevel, growthLevel, storedPotatoes) {
       this.coins = coins;
       this.potato = potato;
       this.storageLevel = storageLevel; // Store the storage level
       this.growthLevel = growthLevel; // Store the grow level
+
+      if(storedPotatoes){ //If storedPotatoes is not null, then set the storedPotatoes to the storage class
+      storage.storedPotatoes = storedPotatoes
+    }
     }
 
     loadUpgradeLevels(storageLevel, growthLevel) {
@@ -101,11 +105,12 @@ class GameController {
             coins: this.coins,
             potato: this.potato,
             storageLevel: this.storageLevel, // Save the storage level
-            growthLevel: this.growthLevel // Save the growth level
+            growthLevel: this.growthLevel, // Save the growth level
+            storedPotatoes: storage.storedPotatoes
           }
         }).then(() => {
           //debugging
-          console.log("Saved to Firebase for user "+username+": Coins = "+this.coins+", Potatoes = "+this.potato);
+          console.log(`Saved to Firebase for user ${username}: Coins = ${this.coins}, Potatoes = ${this.potato}, Stored Potatoes = ${storage.storedPotatoes}`);
           
           // Show the save notification
           this.saveNotification = "Progress saved!";

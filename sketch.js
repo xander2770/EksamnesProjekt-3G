@@ -231,17 +231,13 @@ function startGame() {
         // Load progress if username exists
         const userData = usernames[username]; // Retrieve data for the specific username
         gameController = new GameController();
-        gameController.updateCoinsAndPotatoes(userData.coins, userData.potato, userData.storageLevel, userData.growthLevel); // Update the gameController with the loaded data
+        gameController.updateCoinsAndPotatoes(userData.coins, userData.potato, userData.storageLevel, userData.growthLevel, userData.storedPotatoes); // Update the gameController with the loaded data
         loadGame();/* Load the game after creating a new save.
         (Needs to load game before loading Upgrade levels, because that function uses farm and storage classes, and they are first made in loadgame)*/
         gameController.loadUpgradeLevels(userData.storageLevel, userData.growthLevel); // Load the upgrade levels
 
         //debugging
-        console.log("Logged ind som username: " + username);
-        console.log("Coins: " + gameController.coins);
-        console.log("Potatoes: " + gameController.potato);
-
-        
+        console.log("Logged ind som username: " + username+", Coins: " + gameController.coins+", Potatoes: " + gameController.potato);  
       } else {
         // Ask the player if they want to create a new save
         let createNewSave = confirm("No save file found for this username. Do you want to create a new save?");
@@ -251,7 +247,8 @@ function startGame() {
               coins: 0,
               potato: 0,
               storageLevel: 0,
-              growthLevel: 0
+              growthLevel: 0,
+              storedPotatoes: 0
             }
             }).then(() => {
             console.log("Logged ind som ny username: " + username);
