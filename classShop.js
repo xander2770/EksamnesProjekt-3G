@@ -130,6 +130,8 @@ class Shop {
     }
   }
 
+  functionToSetUpgradeCostBasedOnLevelChangeThisName() {}
+
   upgradeStorage() {
     if (gameController.coins >= this.upgradeCost && gameController.storageLevel < 10) {
       gameController.storageLevel += 1; // Increase storage level
