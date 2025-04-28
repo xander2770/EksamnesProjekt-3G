@@ -59,10 +59,13 @@ class Farm{
     // Text inside the UI
     fill(255);
     textAlign(CENTER, CENTER);
-    textSize(20);
-    text("Farm UI", uiX, uiY - uiH / 2 + 50); // Place text near the top of the UI box
+    textSize(uiW * 0.02); // Set text size relative to window width
+    text("Farm UI", uiX - uiW / 3, uiY - uiH / 2 + 50); // Place text near the top-left side of the UI box
     textSize(16);
-    text("Click on a grid plot to plant or harvest potatoes!", uiX, uiY - uiH / 2 + 100); // Place text below the title
+    text("Click on a plot to plant or harvest potatoes!", uiX - uiW / 3, uiY - uiH / 2 + 100,200); // Place text below the title
+    let growthTime = (this.growthDuration / 1000).toFixed(1); // Convert milliseconds to seconds with one decimal place
+    fill(0, 255, 0); // Yellow text for growth time
+    text("Growth time: "+growthTime+" seconds", uiX - uiW / 3, uiY - uiH / 2 + 150); // Place text below the instructions
 
     // Display the 3x3 grid
     this.displayGrid();
@@ -104,7 +107,7 @@ setGrowthDuration(level) {
   let calculatedDuration = baseDuration;
 
   // Use a for loop to decrement the duration for each level
-  for (let i = 1; i < level; i++) {
+  for (let i = 0; i < level; i++) {
     calculatedDuration -= decrement;
   }
 
