@@ -36,7 +36,7 @@ class Storage {
         fill(255);
         textAlign(CENTER, CENTER);
         textSize(20);
-        text("Storage UI", uiX, uiY - uiH / 2 + 50);
+        text("Storage", uiX, uiY - uiH / 2 + 50);
 
         text("Storage: " + this.storedPotatoes + "/" + this.maxPotatoes + " potatoes", uiX, uiY - uiH / 2 + 100); // Update the text with the current potato count
       
