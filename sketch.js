@@ -24,6 +24,7 @@ let skinFramesRight = []; // Array for right movement animation frames
 let skinFramesLeft = []; // Array for left movement animation frames
 let skinIdleFrame
 let map
+let startScreen
 
 //Settings variables
 let settingsIcon; // Variable for the settings icon
@@ -45,6 +46,9 @@ function preload(){
     // Load the idle frame
     skinIdleFrame = loadImage('images/PlayerFrames/ØlstykkeFarmManIdle_256x256.png');
     
+    //
+    startScreen = loadImage('images/StartScreen1 240x135.png');
+
     // Load the map image
     map = loadImage('images/map1_1920x1080.png');
 
@@ -127,7 +131,8 @@ function draw() {
 }
 
 function drawStartScreen() {
-  background(100, 150, 200);
+  imageMode(CENTER);
+  image(startScreen, width/2, height/2, width, height)
   textAlign(CENTER);
   textSize(32);
   fill(255);
