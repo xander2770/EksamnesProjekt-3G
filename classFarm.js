@@ -115,27 +115,46 @@ setGrowthDuration(level) {
   if (calculatedDuration < 500) {
     calculatedDuration = 500;
   }
+  
+  // Default to 1 if weather is unknown
 
-  this.growthDuration = calculatedDuration;
-  console.log(`Growth duration set to ${this.growthDuration} ms for level ${level}`);
+  // Defines weather effects with a Json object
+  // Clear weather has no effect, cloudy weather slows growth, and rain speeds up growth
+  const weatherEffects = {
+    "clear": 1,    // No effect
+    "cloudy": 1.5, // Slower growth
+    "rain": 0.5   // Faster growth
+  };
+
+  // Get the weather effect based on the current weather, by taking it from the weatherHandler class and getting it in the weatherEffect Json
+  const weatherEffect = weatherEffects[weatherHandler.weather] || 1; // Default to 1 if weather is not one of the 3 or not defined
+
+  // Apply the weather effect to the calculated duration by multiplying it
+  calculatedDuration *= weatherEffect;
+
+  this.growthDuration = calculatedDuration; // Set the growth duration
+
+  // Debugging
+  console.log(`Growth duration set to ${this.growthDuration} ms for level ${level} with the weather effect of ${weatherEffect}.`);
 }
 
-// Update the growth of plants
+// Update the growth of plants over time
+// Note: This function is called in sketch draw
 updateGrowth() {
-  const currentTime = Date.now();
+  const currentTime = Date.now()
 
-  for (let row = 0; row < this.plotsAmountRow; row++) {
-    for (let col = 0; col < this.plotsAmountCol; col++) {
-      const plot = this.grid[row][col];
+  for (let row = 0; row < this.plotsAmountRow; row++) { // Loop through each rows that each holds 5 columns
+    for (let col = 0; col < this.plotsAmountCol; col++) { // Loop through each columns that each holds 5 plots
+      const plot = this.grid[row][col] // Get the current plot, that the loops are on
 
-      if (plot.state === 'planted') {
+      if (plot.state === 'planted') { // Checks growth only for planted plots
         // Check if enough time has passed to grow to the next stage
-        if (currentTime - plot.growthTimer >= this.growthDuration) {
-          if (plot.growthStage < this.plantedPlot.length - 1) {
-            plot.growthStage++; // Advance to the next growth stage
-            plot.growthTimer = currentTime; // Reset the growth timer
+        if (currentTime - plot.growthTimer >= this.growthDuration) { // Check if the growth timer has reached the growth duration, by minusing the current time with when the plot was last updated or planted
+          if (plot.growthStage < this.plantedPlot.length - 1) { // Check if the plot is not fully grown
+            plot.growthStage++; // Grow it to the next growth stage
+            plot.growthTimer = currentTime; // And sets the growth timer to the current time, so it restarts the timer for the next growth stage
           } else {
-            plot.state = 'harvestable'; // Fully grown, change to harvestable
+            plot.state = 'harvestable'; // When fully grown, change to harvestable
           }
         }
       }
@@ -146,19 +165,19 @@ updateGrowth() {
 // Handle mouse clicks to interact with the grid
 handleMouseClick(mx, my) {
 if (this.isUIOpen) {
-  const gridWidth = this.plotSize * 5; // Same as above
-  const gridHeight = this.plotSize * 5; // Same as above
+  const gridWidth = this.plotSize * 5;  // This is the total width of the grid, so we can center it
+  const gridHeight = this.plotSize * 5;  // This is the total height of the grid, so we can center it
   const startX = (width - gridWidth) / 2; // Center it horizontally
   const startY = (height - gridHeight) / 2; // Center it vertically
 
-    for (let row = 0; row < this.plotsAmountRow; row++) {
-        for (let col = 0; col < this.plotsAmountCol; col++) {
-            const x = startX + col * this.plotSize;
-            const y = startY + row * this.plotSize;
+    for (let row = 0; row < this.plotsAmountRow; row++) { // Loop through each rows that each holds 5 columns
+        for (let col = 0; col < this.plotsAmountCol; col++) { // Loop through each columns that each holds 5 plots
+            const x = startX + col * this.plotSize; // Calculate the x position of the plot
+            const y = startY + row * this.plotSize;  // Calculate the y position of the plot
 
-            // Check if the mouse is within the plot area
+          // Check if the mouse is within the plot area, and only do something if it is
           if (mx > x && mx < x + this.plotSize && my > y && my < y + this.plotSize) {
-            const plot = this.grid[row][col]; // Get the plot object
+            const plot = this.grid[row][col]; // Get the current plot, that the loops are on
 
             // Interact with the plot based on its state
             if (plot.state === 'empty') {

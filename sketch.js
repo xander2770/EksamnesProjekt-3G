@@ -10,6 +10,8 @@ let storage
 
 let shop
 
+let weather
+
 let usernameInput;
 let username = ""; // Store the current username
 
@@ -64,7 +66,7 @@ function preload(){
 }
 
 function setup() {
-  Alex = new EmilErEnAbeVejr
+  weatherHandler = new EmilErEnAbeVejr
   
   createCanvas(windowWidth-1, windowHeight-1);
   frameRate(60); // Set the frame rate to 60 FPS
