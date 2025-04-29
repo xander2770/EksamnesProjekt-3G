@@ -13,12 +13,14 @@ class Farm{
     // Mini-game grid (5x5)
     this.plotsAmountRow = 5; // Number of plots in each row - Note: Row is horisontal and columns is vertical.
     this.plotsAmountCol = 5; // Number of plots in each column
+    this.plotSize = 100; // Size of each grid plot
+
     /* fill(), fills the array with maps that each holds 5 arrays, 
     that each holds a state, growth stage, and growth timer. This creates the 5x5 grid of plots*/
     this.grid = Array(this.plotsAmountRow).fill().map(() => 
       Array(this.plotsAmountCol).fill().map(() => ({ state: 'empty', growthStage: 0, growthTimer: 0 }))
     ); // Make grid with 'empty', growth stage 0, and growth timer 0
-    this.plotSize = 100; // Size of each grid plot
+
     this.growthDuration // Time (in ms) for a plant to grow to the next stage
   }
 
@@ -36,41 +38,41 @@ class Farm{
 
   // Display the farm area on the map
   display() {
-    if(!this.isUIOpen && !storage.isUIOpen && !shop.isUIOpen){
-    fill(0, 255, 0, 50); // Semi-transparent green for the farm radius
-    noStroke();
-    rectMode(CENTER);
-    rect(this.x, this.y, this.dia, this.dia); // Draw the interaction radius
+    if(!this.isUIOpen && !storage.isUIOpen && !shop.isUIOpen){ // Only display if no UI is open
+      fill(0, 255, 0, 50); // Semi-transparent green for the farm radius
+      noStroke();
+      rectMode(CENTER);
+      rect(this.x, this.y, this.dia, this.dia); // Draw the interaction radius
     }
   }
 
  // To display the UI when it is open
- displayUI() {
-  if (this.isUIOpen) {
-    // UI background
-    fill(50, 50, 50, 200); // Semi-transparent dark background
-    rectMode(CENTER);
-    const uiW = width * 0.8; // Width of the UI box 
-    const uiH = height * 0.8;// Height of the UI box 
-    const uiX = width / 2; //Position - Ignore Same as above
-    const uiY = height / 2; //Position - Ignore Same as above
-    rect(uiX, uiY, uiW, uiH);
+  displayUI() {
+    if (this.isUIOpen) {
+      // UI background
+      fill(50, 50, 50, 200); // Semi-transparent dark background
+      rectMode(CENTER);
+      const uiW = width * 0.8; // Width of the UI box 
+      const uiH = height * 0.8;// Height of the UI box 
+      const uiX = width / 2; //Position - Ignore Same as above
+      const uiY = height / 2; //Position - Ignore Same as above
+      rect(uiX, uiY, uiW, uiH);
 
-    // Text inside the UI
-    fill(255);
-    textAlign(CENTER, CENTER);
-    textSize(uiW * 0.02); // Set text size relative to window width
-    text("Farm UI", uiX - uiW / 3, uiY - uiH / 2 + 50); // Place text near the top-left side of the UI box
-    textSize(16);
-    text("Click on a plot to plant or harvest potatoes!", uiX - uiW / 3, uiY - uiH / 2 + 100,200); // Place text below the title
-    let growthTime = (this.growthDuration / 1000).toFixed(1); // Convert milliseconds to seconds with one decimal place
-    fill(0, 255, 0); // Yellow text for growth time
-    text("Growth time: "+growthTime+" seconds", uiX - uiW / 3, uiY - uiH / 2 + 150); // Place text below the instructions
+      // Text inside the UI
+      fill(255);
+      textAlign(CENTER, CENTER);
+      textSize(uiW * 0.02); // Set text size relative to window width
+      text("Farm UI", uiX - uiW / 3, uiY - uiH / 2 + 50); // Place text near the top-left side of the UI box
+      textSize(16);
+      text("Click on a plot to plant or harvest potatoes!", uiX - uiW / 3, uiY - uiH / 2 + 100,200); // Place text below the title
+      let growthTime = (this.growthDuration / 1000).toFixed(1); // Convert milliseconds to seconds with one decimal place
+      fill(0, 255, 0); // Yellow text for growth time
+      text("Growth time: "+growthTime+" seconds", uiX - uiW / 3, uiY - uiH / 2 + 150); // Place text below the instructions
 
-    // Display the 3x3 grid
-    this.displayGrid();
-}
-}
+      // Display the 3x3 grid
+      this.displayGrid();
+    }
+  }
 
   // Display the 3x3 grid for the mini-game
   displayGrid() {
@@ -80,23 +82,23 @@ class Farm{
     const startX = (width - gridWidth) / 2; // Center the grid horizontally
     const startY = (height - gridHeight) / 2; // Center the grid vertically
 
-    for (let row = 0; row < this.plotsAmountRow; row++) { // Loop through rows that each holds 5 plots
-        for (let col = 0; col < this.plotsAmountCol; col++) {
-          const x = startX + col * this.plotSize;
-          const y = startY + row * this.plotSize;
+    for (let row = 0; row < this.plotsAmountRow; row++) { // Loop through each rows that each holds 5 columns
+        for (let col = 0; col < this.plotsAmountCol; col++) { // Loop through each columns that each holds 5 plots
+          // Calculate the x and y position of the current plot, by using the startX and startY and the plot size multiplied by the current row and column
+          const x = startX + col * this.plotSize; // Calculate the x position of the current plot the loops are on
+          const y = startY + row * this.plotSize;  // Calculate the y position of the current plot the loops are on
   
-          const plot = this.grid[row][col]; // Get the plot object
+          const plot = this.grid[row][col]; // Get the current plot, that the loops are on
 
-        imageMode(CORNER); // Set image mode to CORNER for positioning
-        // Draw the appropriate image based on the state of the plot
-        if (plot.state === 'empty') {
-          image(this.emptyPlot, x, y, this.plotSize, this.plotSize); // Draw empty plot
-        } else if (plot.state === 'planted') {
-          image(this.plantedPlot[plot.growthStage], x, y, this.plotSize, this.plotSize); // Draw planted plot based on growth stage
-        } else if (plot.state === 'harvestable') {
-          image(this.harvestablePlot, x, y, this.plotSize, this.plotSize); // Draw harvestable plot
-        }
-        
+          imageMode(CORNER); // Set image mode to CORNER for positioning
+         // Draw the correct image based on the state of the plot
+          if (plot.state === 'empty') {
+            image(this.emptyPlot, x, y, this.plotSize, this.plotSize); // Draw empty plot
+          } else if (plot.state === 'planted') {
+            image(this.plantedPlot[plot.growthStage], x, y, this.plotSize, this.plotSize); // Draw planted plot based on growth stage
+          } else if (plot.state === 'harvestable') {
+            image(this.harvestablePlot, x, y, this.plotSize, this.plotSize); // Draw harvestable plot
+          }
         }
     }
 }
@@ -172,8 +174,9 @@ if (this.isUIOpen) {
 
     for (let row = 0; row < this.plotsAmountRow; row++) { // Loop through each rows that each holds 5 columns
         for (let col = 0; col < this.plotsAmountCol; col++) { // Loop through each columns that each holds 5 plots
-            const x = startX + col * this.plotSize; // Calculate the x position of the plot
-            const y = startY + row * this.plotSize;  // Calculate the y position of the plot
+          // Calculate the x and y position of the current plot, by using the startX and startY and the plot size multiplied by the current row and column
+            const x = startX + col * this.plotSize; // Calculate the x position of the current plot the loops are on
+            const y = startY + row * this.plotSize;  // Calculate the y position of the current plot the loops are on
 
           // Check if the mouse is within the plot area, and only do something if it is
           if (mx > x && mx < x + this.plotSize && my > y && my < y + this.plotSize) {
