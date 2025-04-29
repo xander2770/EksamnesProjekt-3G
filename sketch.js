@@ -82,6 +82,8 @@ function setup() {
   //Start button to start the game
   startButton = createButton("Start Game").position(width / 2 - 50, height / 2 + 20).mousePressed(startGame);
 
+
+
   // Create buttons for the settings menu (hidden by default)
   saveButton = createButton("Save Progress").position(width - 200, 100).mousePressed(() => {
     gameController.saveProgress(username);
@@ -359,21 +361,30 @@ function logout() {
 
 
 function keyPressed() {
-  if (key === 'e' || key === 'E') {
-    if(farm.isPlayerNearby(player)){
-      farm.toggleUI(); // Toggle the farm UI
+
+  if(gameState === "start"){ // Check if the game is in the start state to do the start screen stuff
+    if (keyCode === ENTER) { // Check if the Enter key is pressed
+      startGame(); // Call the startGame function to start the game
     }
   }
 
-  if (key === 'e' || key === 'E') {
-    if(storage.isPlayerNearby(player)){
-      storage.toggleUI(); // Toggle the farm UI
+  if(gameState === "play"){ // Check if the game is in the play state to do the game stuff
+    if (key === 'e' || key === 'E') {
+      if(farm.isPlayerNearby(player)){
+        farm.toggleUI(); // Toggle the farm UI
+      }
     }
-  }
 
-  if (key === 'e' || key === 'E') {
-    if(shop.isPlayerNearby(player)){
-      shop.toggleUI(); // Toggle the farm UI
+    if (key === 'e' || key === 'E') {
+      if(storage.isPlayerNearby(player)){
+        storage.toggleUI(); // Toggle the farm UI
+      }
+    }
+
+    if (key === 'e' || key === 'E') {
+      if(shop.isPlayerNearby(player)){
+        shop.toggleUI(); // Toggle the farm UI
+      }
     }
   }
 }
