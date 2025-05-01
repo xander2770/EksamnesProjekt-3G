@@ -8,8 +8,8 @@ class Shop {
     this.sellDropdown = null; // Dropdown for selecting bundle size
     this.upgradeButton = null;
     this.upgradeGrowthButton = null; // Button for upgrading storage
-    this.upgradeCost = 100;
-    this.upgradeGrowthCost = 100; // Initial cost to upgrade storage
+    this.upgradeStorageCost = gameController.storageLevel; // Initial cost to upgrade storage
+    this.upgradeGrowthCost = gameController.growthLevel; // Initial cost to upgrade storage
   }
 
   display() {
@@ -130,7 +130,10 @@ class Shop {
     }
   }
 
-  functionToSetUpgradeCostBasedOnLevelChangeThisName() {}
+  setUpgradeCostBasedOnLevel(storageLevel, growthLevel) {
+      this.upgradeStorageCost =(storageLevel+1) * 100; // Example cost calculation based on level
+      this.upgradeGrowthCost = (growthLevel+1) * 100; // Example cost calculation based on level
+    }
 
   upgradeStorage() {
     if (gameController.coins >= this.upgradeCost && gameController.storageLevel < 10) {
@@ -139,7 +142,6 @@ class Shop {
       storage.setStorageCapacity(gameController.storageLevel); // Set the storage capacity based on the new level
       console.log(`Storage upgraded! New capacity: ${storage.maxPotatoes}`);
       console.log(`Coins deducted: ${this.upgradeCost}`);
-      this.upgradeCost *= 2; // Double the cost for the next upgrade
       console.log(`Next upgrade cost: ${this.upgradeCost}`);
     } else {
       console.log("Not enough coins to upgrade storage.");
@@ -152,7 +154,7 @@ class Shop {
       gameController.coins -= this.upgradeGrowthCost; // Deduct coins from the player
       farm.setGrowthDuration(gameController.growthLevel) // Set the growth duration based on the new growth level
       console.log(`Growth upgraded! New growth level: ${gameController.growthLevel}`);
-      this.upgradeGrowthCost *= 2; // Double the cost for the next upgrade
+
     } else {
       console.log("Not enough coins to upgrade growth rate.");
     }
