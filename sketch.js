@@ -23,8 +23,12 @@ let autoSaveInterval;
 let skinFramesRight = []; // Array for right movement animation frames
 let skinFramesLeft = []; // Array for left movement animation frames
 let skinIdleFrame
-let map
 let startScreen
+
+let map
+let mapClear
+let mapCloudy
+let mapRain
 
 //Settings variables
 let settingsIcon; // Variable for the settings icon
@@ -50,7 +54,10 @@ function preload(){
     startScreen = loadImage('images/StartScreen1 240x135.png');
 
     // Load the map image
-    map = loadImage('images/map1_1920x1080.png');
+    mapClear = loadImage('images/Chatimages/ChatGPT Image1.png');
+    mapCloudy = loadImage('images/Chatimages/ChatGPT Image2.png');
+    mapRain  = loadImage('images/Chatimages/ChatGPT Image3.png');
+   
 
      // Load the settings icon image
     settingsIcon = loadImage('images/settingsIcon_128x128.png');
@@ -145,7 +152,7 @@ function drawStartScreen() {
 
 function drawGame() {
   imageMode(CENTER);
-  image(map, width/2, height/2, width, height)
+  image(map, width/2, height/2, width, height)  // Display the map image
 
   // Display coins and potatoes
   textSize(16);
