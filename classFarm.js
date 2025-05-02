@@ -17,9 +17,13 @@ class Farm{
 
     /* fill(), fills the array with maps that each holds 5 arrays, 
     that each holds a state, growth stage, and growth timer. This creates the 5x5 grid of plots*/
-    this.grid = Array(this.plotsAmountRow).fill().map(() => 
-      Array(this.plotsAmountCol).fill().map(() => ({ state: 'empty', growthStage: 0, growthTimer: 0 }))
-    ); // Make grid with 'empty', growth stage 0, and growth timer 0
+    this.grid = Array(this.plotsAmountRow)
+            .fill()
+              .map(() => 
+                Array(this.plotsAmountCol)
+                .fill()
+                  .map(() => ({ state: 'empty', growthStage: 0, growthTimer: 0 }))
+        ); // Make grid with 'empty', growth stage 0, and growth timer 0
 
     this.growthDuration // Time (in ms) for a plant to grow to the next stage
   }
