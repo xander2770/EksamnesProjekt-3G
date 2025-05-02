@@ -2,17 +2,31 @@
 // classStorage.js
 class Storage {
     constructor(x, y, maxPotatoes, dia) {
+      // Position på skærmen
        this.x = x;
        this.y = y;
+
+        // Maksimalt antal kartofler der kan være i storage
        this.maxPotatoes = maxPotatoes;
+
+       // Aktuelt antal kartofler i storage
        this.storedPotatoes = 0;
+
+       // Sætter Ui'et til falsk, så det ikke vises i starten
        this.isUIOpen = false;
+
+       // Radius for hvor tæt spilleren skal være for at åbne Ui'et
        this.dia = dia
-       this.delayAmount = 5 // Delay for the deliver and collect buttons
+
+       // Sætter delay i deliver og collect knapperne, så de ikke kan spammes
+       this.delayAmount = 5 
        this.delayCurrent = 0
+
+       // Variable til image
        this.imageToDisplay;
     }
 
+    // Viser områder hvor storage kan åbnes
     display() {
       if(!this.isUIOpen && !farm.isUIOpen && !shop.isUIOpen){
       fill(0, 255, 0, 50); // Semi-transparent green for the farm radius
@@ -22,6 +36,7 @@ class Storage {
       }
     }
 
+    // Viser UI'et når spilleren er tæt nok på storage og trykker på E
     displayUI() {
       if (this.isUIOpen) {
         // UI background
@@ -33,6 +48,7 @@ class Storage {
       const uiY = height / 2; //Position - Ignore Same as above
       rect(uiX, uiY, uiW, uiH);
     
+      // Tekst der viser hvor mange kartofler der er i storage
         fill(255);
         textAlign(CENTER, CENTER);
         textSize(20);
@@ -40,13 +56,14 @@ class Storage {
 
         text("Storage: " + this.storedPotatoes + "/" + this.maxPotatoes + " potatoes", uiX, uiY - uiH / 2 + 100); // Update the text with the current potato count
       
+        // Beregner hvor mange bokse der skal vises og hvordan de skal fordeles
         const boxSize = 20;
         const numBoxes = this.maxPotatoes / boxSize;
-        
         const boxesPerRow = 4; // Hvor mange kasser du vil have per række
         const spacingX = 220; // Afstand mellem kasser (vandret)
         const spacingY = 180; // Afstand mellem rækker (lodret)
         
+        // Loop der tegner kasserne baseret på hvor mange kartofler der er i storage
         for (let i = 0; i < numBoxes; i++) {
           let potatoesInBox = this.storedPotatoes - (i * boxSize);
           potatoesInBox = constrain(potatoesInBox, 0, boxSize);
