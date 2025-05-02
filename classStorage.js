@@ -39,16 +39,17 @@ class Storage {
     // Viser UI'et når spilleren er tæt nok på storage og trykker på E
     displayUI() {
       if (this.isUIOpen) {
+      
         // UI background
-      fill(50, 50, 50, 200); // Semi-transparant mørk baggrund
-      rectMode(CENTER);
-      const uiW = width * 0.8; // Bredde af UI-boksen
-      const uiH = height * 0.8;// Højde af UI-boksen 
-      const uiX = width / 2; //Position - Ignore Same as above
-      const uiY = height / 2; //Position - Ignore Same as above
-      rect(uiX, uiY, uiW, uiH);
-    
-      // Tekst der viser hvor mange kartofler der er i storage
+        fill(50, 50, 50, 200); // Semi-transparant mørk baggrund
+        rectMode(CENTER);
+        const uiW = width * 0.8; // Bredde af UI-boksen
+        const uiH = height * 0.8;// Højde af UI-boksen 
+        const uiX = width / 2; //Position - Ignore Same as above
+        const uiY = height / 2; //Position - Ignore Same as above
+        rect(uiX, uiY, uiW, uiH);
+      
+        // Tekst der viser hvor mange kartofler der er i storage
         fill(255);
         textAlign(CENTER, CENTER);
         textSize(20);
