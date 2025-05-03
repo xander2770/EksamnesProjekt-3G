@@ -14,7 +14,7 @@ class GameController {
     }
   
     // To update coins and potatoes
-    updateCoinsAndPotatoes(coins, potato, storageLevel, growthLevel, storedPotatoes) {
+    loadCoinsAndPotatoes(coins, potato, storageLevel, growthLevel, storedPotatoes) {
       this.coins = coins;
       this.potato = potato;
       this.storageLevel = storageLevel; // Store the storage level

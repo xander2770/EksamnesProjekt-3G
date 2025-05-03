@@ -250,7 +250,7 @@ function startGame() {
         gameController = new GameController();
         loadGame();/* Load the game after creating a new save.
         (Needs to load game before loading Upgrade levels, because that function uses farm and storage classes, and they are first made in loadgame)*/
-        gameController.updateCoinsAndPotatoes(userData.coins, userData.potato, userData.storageLevel, userData.growthLevel, userData.storedPotatoes); // Update the gameController with the loaded data
+        gameController.loadCoinsAndPotatoes(userData.coins, userData.potato, userData.storageLevel, userData.growthLevel, userData.storedPotatoes); // Update the gameController with the loaded data
         gameController.loadUpgradeLevels(userData.storageLevel, userData.growthLevel); // Load the upgrade levels
 
         //debugging
@@ -272,7 +272,7 @@ function startGame() {
             gameController = new GameController();
             loadGame(); /* Load the game after creating a new save.
             (Needs to load game before loading Upgrade levels, because that function uses farm and storage classes, and they are first made in loadgame)*/
-            gameController.updateCoinsAndPotatoes(0, 0, 0, 0, 0);
+            gameController.loadCoinsAndPotatoes(0, 0, 0, 0, 0);
             gameController.loadUpgradeLevels(0,0)
           });
         }
