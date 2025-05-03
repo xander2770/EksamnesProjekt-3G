@@ -69,7 +69,7 @@ class Farm{
       fill(255);
       textAlign(CENTER, CENTER);
       textSize(uiW * 0.02); // Set text size relative to window width
-      text("Farm UI", uiX - uiW / 3, uiY - uiH / 2 + 50); // Place text near the top-left side of the UI box
+      text("Farm", uiX - uiW / 3, uiY - uiH / 2 + 50); // Place text near the top-left side of the UI box
       textSize(16);
       text("Click on a plot to plant or harvest potatoes!", uiX - uiW / 3, uiY - uiH / 2 + 100,200); // Place text below the title
       let growthTime = (this.growthDuration / 1000).toFixed(1); // Convert milliseconds to seconds with one decimal place
