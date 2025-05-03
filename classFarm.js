@@ -17,7 +17,7 @@ class Farm{
 
     
     
-    // Initialize the grid with empty plots
+    // Make a grid with 5 rows and 5 columns, that holds the state of each plot as an object.
     this.grid = Array(this.plotsAmountRow) // Create an array for each row in the grid (5 rows)
             .fill() // fill(), fills the array with undefined values, so we can use map() on it.
               .map(() => // Map changes each of the undefined values to a new array. (it does not modify the undefined values, but changes them to a new array)
