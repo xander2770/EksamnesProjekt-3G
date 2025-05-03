@@ -101,6 +101,7 @@ class GameController {
     // Save progress to Firebase
     saveProgress(username) {
       if (username) {
+        //database er instansen der kalder forbindelsen til fireBase - funktionerne collection, doc og update() gør det muligt at opdatere data det rigtige sted 
         database.collection("eksgameTest").doc("usernames").update({
           [username]: {
             coins: this.coins,

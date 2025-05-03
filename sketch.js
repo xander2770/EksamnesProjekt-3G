@@ -240,26 +240,26 @@ function drawGame() {
 
 function startGame() {
   username = usernameInput.value().trim(); // Trim removes whitespace- from the beginning and end of the string
-  if (username) {
-    // Check if the username exists in Firebase
-    database.collection("eksgameTest").doc("usernames").get().then((doc) => {
+  if (username) { // Check if the username is not empty
+
+    database.collection("eksgameTest").doc("usernames").get().then((doc) => { // Get the document in firebase with all the users with saved data
       const usernames = doc.data(); // Retrieve all usernames from the document
-      if (doc.exists && usernames[username]) { // Check if the specific username exists
+      if (doc.exists && usernames[username]) { // Check if the specific username exists in the firebase document, and if the document exists
         // Load progress if username exists
         const userData = usernames[username]; // Retrieve data for the specific username
-        gameController = new GameController();
+        gameController = new GameController(); // Create a new gameController class
         loadGame();/* Load the game after creating a new save.
         (Needs to load game before loading Upgrade levels, because that function uses farm and storage classes, and they are first made in loadgame)*/
-        gameController.loadCoinsAndPotatoes(userData.coins, userData.potato, userData.storageLevel, userData.growthLevel, userData.storedPotatoes); // Update the gameController with the loaded data
+        gameController.loadCoinsAndPotatoes(userData.coins, userData.potato, userData.storageLevel, userData.growthLevel, userData.storedPotatoes); // Load the gameController with the loaded data
         gameController.loadUpgradeLevels(userData.storageLevel, userData.growthLevel); // Load the upgrade levels
 
         //debugging
         console.log("Logged ind som username: " + username+", Coins: " + gameController.coins+", Potatoes: " + gameController.potato);  
-      } else {
+      } else { // If the username does not exist in the document, ask if they want to create a new save
         // Ask the player if they want to create a new save
         let createNewSave = confirm("No save file found for this username. Do you want to create a new save?");
-        if (createNewSave) {
-            database.collection("eksgameTest").doc("usernames").update({
+        if (createNewSave) { // If the player wants to create a new save
+            database.collection("eksgameTest").doc("usernames").update({ // Update the document with the new username and the default values
             [username]: {
               coins: 0,
               potato: 0,
@@ -267,13 +267,13 @@ function startGame() {
               growthLevel: 0,
               storedPotatoes: 0
             }
-            }).then(() => {
+            }).then(() => { // After getting the saved data or updating the document with a new user, create a new GameController class and load the game with the data
             console.log("Logged ind som ny username: " + username);
-            gameController = new GameController();
+            gameController = new GameController(); // Create a new gameController class
             loadGame(); /* Load the game after creating a new save.
             (Needs to load game before loading Upgrade levels, because that function uses farm and storage classes, and they are first made in loadgame)*/
-            gameController.loadCoinsAndPotatoes(0, 0, 0, 0, 0);
-            gameController.loadUpgradeLevels(0,0)
+            gameController.loadCoinsAndPotatoes(0, 0, 0, 0, 0); // Load the gameController with the default values
+            gameController.loadUpgradeLevels(0,0)// Load the upgrade levels with default values
           });
         }
       }
