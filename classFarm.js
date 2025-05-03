@@ -15,17 +15,20 @@ class Farm{
     this.plotsAmountCol = 5; // Number of plots in each column
     this.plotSize = 100; // Size of each grid plot
 
-    /* fill(), fills the array with maps that each holds 5 arrays, 
-    that each holds a state, growth stage, and growth timer. This creates the 5x5 grid of plots*/
-    this.grid = Array(this.plotsAmountRow)
-            .fill()
-              .map(() => 
-                Array(this.plotsAmountCol)
-                .fill()
-                  .map(() => ({ state: 'empty', growthStage: 0, growthTimer: 0 }))
-        ); // Make grid with 'empty', growth stage 0, and growth timer 0
+    
+    
+    // Initialize the grid with empty plots
+    this.grid = Array(this.plotsAmountRow) // Create an array for each row in the grid (5 rows)
+            .fill() // fill(), fills the array with undefined values, so we can use map() on it.
+              .map(() => // Map changes each of the undefined values to a new array. (it does not modify the undefined values, but changes them to a new array)
+                Array(this.plotsAmountCol) // Map each index in the array to a new column array (5 columns)
+                .fill() // Fill columns with undefined to prepare for mapping
+                  .map(() => ({ state: 'empty', growthStage: 0, growthTimer: 0 })) //and the we map those arrays undefined, with objects that has a state of 'empty', growth stage of 0, and growth timer of 0.
+              ); // This is the grid that holds the state of each plot, by having 5 arrays with rows and each of those arrays has 5 arrays with columns, that holds the state of each plot as an object.
 
-    this.growthDuration // Time (in ms) for a plant to grow to the next stage
+              //Note: Map only works if the array isen't empty, so we first fill it with undefined values even tho they are undefined, so we can use map() on it.
+
+    this.growthDuration // How long it takes for a plant to grow to the next stage
   }
 
   // To check if the player is within the interaction radius by using dist function
