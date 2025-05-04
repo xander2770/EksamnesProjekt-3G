@@ -2,168 +2,154 @@ class Farm{
   constructor(x, y, dia, emptyPlot, plantedPlot, harvestablePlot) {
     this.x = x; // Farm's x position
     this.y = y; // Farm's y position
-    this.dia = dia; // Interaction radius
-    this.isUIOpen = false; // Flag to track if the UI is open
+    this.dia = dia; // Interaktions radius
+    this.isUIOpen = false; // Variabel til at holde styr på om UI er åben eller lukket
 
-    // Images for the plots
-    this.emptyPlot = emptyPlot; // Image for empty plot
-    this.plantedPlot = plantedPlot; // Image for planted plot
-    this.harvestablePlot = harvestablePlot; // Image for harvestable plot
+    // Billeder til de forskellige tilstande af plottene
+    this.emptyPlot = emptyPlot; // Billede for tomt plot
+    this.plantedPlot = plantedPlot; // Billede for plantet plot
+    this.harvestablePlot = harvestablePlot; // Billede for høstbart plot
 
-    // Mini-game grid (5x5)
-    this.plotsAmountRow = 5; // Number of plots in each row - Note: Row is horisontal and columns is vertical.
-    this.plotsAmountCol = 5; // Number of plots in each column
-    this.plotSize = 100; // Size of each grid plot
+    this.growthDuration // Hvor lang tid det tager for en plante at vokse til næste stadie, afhænger af niveauet og vejret
+
+    this.plotsAmountRow = 5; // Mængde af rækker i gridet
+    this.plotsAmountCol = 5; // Mængde af kolonner i gridet
+    this.plotSize = 100; // Størrelse af hvert plot i gridet (100x100)
 
     
     
-    // Make a grid with 5 rows and 5 columns, that holds the state of each plot as an object.
-    this.grid = Array(this.plotsAmountRow) // Create an array for each row in the grid (5 rows)
-            .fill() // fill(), fills the array with undefined values, so we can use map() on it.
-              .map(() => // Map changes each of the undefined values to a new array. (it does not modify the undefined values, but changes them to a new array)
-                Array(this.plotsAmountCol) // Map each index in the array to a new column array (5 columns)
-                .fill() // Fill columns with undefined to prepare for mapping
-                  .map(() => ({ state: 'empty', growthStage: 0, growthTimer: 0 })) //and the we map those arrays undefined, with objects that has a state of 'empty', growth stage of 0, and growth timer of 0.
-              ); // This is the grid that holds the state of each plot, by having 5 arrays with rows and each of those arrays has 5 arrays with columns, that holds the state of each plot as an object.
-
-              //Note: Map only works if the array isen't empty, so we first fill it with undefined values even tho they are undefined, so we can use map() on it.
-
-    this.growthDuration // How long it takes for a plant to grow to the next stage
+    // Variabel til at holde styr på gridet, som er en 2D array med arrays og objekter der holder tilstand, grostadie og gro timer
+    this.grid = Array(this.plotsAmountRow) // Laver en array med 5 rækker
+            .fill() // fill() fylder arrayen med undefined værdier, så vi kan bruge map() på den
+              .map(() => // Map() laver en ny array for hver række, som indeholder 5 kolonner (map() er kun muligt hvis arrayen ikke er tom, derfor fylder vi den med undefined værdier)
+                Array(this.plotsAmountCol) // Laver en array med 5 kolonner
+                .fill() // fill() fylder arrayen med undefined værdier, så vi kan bruge map() på den
+                  .map(() => ({ state: 'empty', growthStage: 0, growthTimer: 0 })) // Map() laver et nyt objekt for hver kolonne, som indeholder tilstand, grostadie og gro timer
+              ); // Returnerer den nye array med 5 rækker og 5 kolonner, som indeholder objekter med tilstand, grostadie og gro timer
   }
 
-  // To check if the player is within the interaction radius by using dist function
-  // Note: dist() is a p5.js function that calculates the distance between two points
+  // isPlayerNearby() tjekker om spilleren er inden for farmens interaktionsradius (Så spilleren kan åbne UI'en ved at trykke på "E" når de er tæt på farmen)
+  // Note: dist() er en funktion der beregner afstanden mellem to punkter
   isPlayerNearby(player) {
     const distance = dist(player.x, player.y, this.x, this.y);
-    return distance <= this.dia;
+    return distance <= this.dia; // Returnerer true hvis spilleren er inden for radius, ellers false
   }
 
-  // Toggle the UI when the player presses "E"
+  // toggleUI() skifter UI'en mellem åben og lukket tilstand, når spilleren trykker på "E" tasten
   toggleUI() {
     this.isUIOpen = !this.isUIOpen;
   }
 
-  // Display the farm area on the map
+  // display() viser farmens interaktionsradius, hvis ingen UI er åben
   display() {
-    if(!this.isUIOpen && !storage.isUIOpen && !shop.isUIOpen){ // Only display if no UI is open
-      fill(0, 255, 0, 50); // Semi-transparent green for the farm radius
+    if(!this.isUIOpen && !storage.isUIOpen && !shop.isUIOpen){
+      fill(0, 255, 0, 50);
       noStroke();
       rectMode(CENTER);
-      rect(this.x, this.y, this.dia, this.dia); // Draw the interaction radius
+      rect(this.x, this.y, this.dia, this.dia); // Tegner en rectangle omkring farmen, som viser interaktionsradius
     }
   }
 
- // To display the UI when it is open
+ // displayUI() viser UI'en for farmen, hvis den er åben
   displayUI() {
     if (this.isUIOpen) {
-      // UI background
-      fill(50, 50, 50, 200); // Semi-transparent dark background
+      // UI baggrund
+      fill(50, 50, 50, 200); // Semi-transparent baggrund
       rectMode(CENTER);
-      const uiW = width * 0.8; // Width of the UI box 
-      const uiH = height * 0.8;// Height of the UI box 
-      const uiX = width / 2; //Position - Ignore Same as above
-      const uiY = height / 2; //Position - Ignore Same as above
-      rect(uiX, uiY, uiW, uiH);
+      const uiW = width * 0.8; // Bredde af UI boksen, baseret på vinduets bredde
+      const uiH = height * 0.8;// Højden af UI boksen, baseret på vinduets højde
+      const uiX = width / 2; // X position af UI boksen
+      const uiY = height / 2; // Y position af UI boksen
+      rect(uiX, uiY, uiW, uiH); // Tegner UI boksen i midten af vinduet
 
-      // Text inside the UI
+      // Text inde i UI boksen
       fill(255);
       textAlign(CENTER, CENTER);
-      textSize(uiW * 0.02); // Set text size relative to window width
-      text("Farm", uiX - uiW / 3, uiY - uiH / 2 + 50); // Place text near the top-left side of the UI box
+      textSize(uiW * 0.02); // Sætter tekststørrelsen baseret på UI boksens bredde
+      text("Farm", uiX - uiW / 3, uiY - uiH / 2 + 50);
       textSize(16);
-      text("Click on a plot to plant or harvest potatoes!", uiX - uiW / 3, uiY - uiH / 2 + 100,200); // Place text below the title
-      let growthTime = (this.growthDuration / 1000).toFixed(1); // Convert milliseconds to seconds with one decimal place
-      fill(0, 255, 0); // Yellow text for growth time
-      text("Growth time: "+growthTime+" seconds", uiX - uiW / 3, uiY - uiH / 2 + 150); // Place text below the instructions
+      text("Click on a plot to plant or harvest potatoes!", uiX - uiW / 3, uiY - uiH / 2 + 100,200);
+      let growthTime = (this.growthDuration / 1000).toFixed(1); // Laver en variabel der holder på hvor lang tid det tager for en plante at vokse til næste stadie, og skriver det i sekunder runder den til 1 decimal med funktionen toFixed(1)
+      fill(0, 255, 0);
+      text("Growth time: "+growthTime+" seconds", uiX - uiW / 3, uiY - uiH / 2 + 150); // Viserer hvor lang tid det tager for en plante at vokse til næste stadie i sekunder
 
-      // Display the 3x3 grid
+      // Viser gridet med plottene (selve farmen)
       this.displayGrid();
     }
   }
 
-  // Display the 3x3 grid for the mini-game
+  // displayGrid() visualiserer gridet med plottene, som er en 2D array med objekter der holder tilstand, grostadie og gro timer
   displayGrid() {
     
-    const gridWidth = this.plotSize * 5; // This is the total width of the grid, so we can center it
-    const gridHeight = this.plotSize * 5; // This is the total height of the grid, so we can center it
-    const startX = (width - gridWidth) / 2; // Center the grid horizontally
-    const startY = (height - gridHeight) / 2; // Center the grid vertically
+    const gridWidth = this.plotSize * 5; // gridWidth er bredden af gridet, som er 5 plots bredt
+    const gridHeight = this.plotSize * 5; // gridHeight er højden af gridet, som er 5 plots højt
+    const startX = (width - gridWidth) / 2; // Variabel der holder på x positionen af hvor gridet skal starte med at tegnes, så det er centreret i vinduet
+    const startY = (height - gridHeight) / 2; // Variabel der holder på y positionen af hvor gridet skal starte med at tegnes, så det er centreret i vinduet
 
-    for (let row = 0; row < this.plotsAmountRow; row++) { // Loop through each rows that each holds 5 columns
-        for (let col = 0; col < this.plotsAmountCol; col++) { // Loop through each columns that each holds 5 plots
-          // Calculate the x and y position of the current plot, by using the startX and startY and the plot size multiplied by the current row and column
-          const x = startX + col * this.plotSize; // Calculate the x position of the current plot the loops are on
-          const y = startY + row * this.plotSize;  // Calculate the y position of the current plot the loops are on
+    for (let row = 0; row < this.plotsAmountRow; row++) { // Looper gennem hver række i gridet, som er 5 plots bredt
+        for (let col = 0; col < this.plotsAmountCol; col++) { // Looper gennem hver kolonne i gridet, som er 5 plots højt
+          // Hvert plots x og y position beregnes ved at tage startX og startY og tilføje plotSize ganget med den nuværende række og kolonne
+          const x = startX + col * this.plotSize; // Regner x positionen af det nuværende plot, som loopsene er på
+          const y = startY + row * this.plotSize;  // Regner y positionen af det nuværende plot, som loopsene er på
   
-          const plot = this.grid[row][col]; // Get the current plot, that the loops are on
+          const plot = this.grid[row][col]; // Laver en variabel der holder på det nuværende plot, som loopsene er på
 
-          imageMode(CORNER); // Set image mode to CORNER for positioning
-         // Draw the correct image based on the state of the plot
+          imageMode(CORNER); // Sætter billedemodus til CORNER, så billedet tegnes fra dets øverste venstre hjørne
+         // Tegner plottene i gridet baseret på deres tilstand
           if (plot.state === 'empty') {
-            image(this.emptyPlot, x, y, this.plotSize, this.plotSize); // Draw empty plot
+            image(this.emptyPlot, x, y, this.plotSize, this.plotSize); // Tegner tomt plot
           } else if (plot.state === 'planted') {
-            image(this.plantedPlot[plot.growthStage], x, y, this.plotSize, this.plotSize); // Draw planted plot based on growth stage
+            image(this.plantedPlot[plot.growthStage], x, y, this.plotSize, this.plotSize); // Tegner plantet plot baseret på grostadiet (grostadiet bestemmer hvilket billede der skal bruges fra plantedPlot arrayet, der er fyldt med billeder af de forskellige grostadier)
           } else if (plot.state === 'harvestable') {
-            image(this.harvestablePlot, x, y, this.plotSize, this.plotSize); // Draw harvestable plot
+            image(this.harvestablePlot, x, y, this.plotSize, this.plotSize); // Tegner høstbart plot
           }
         }
     }
 }
 
+// setGrowthDuration() sætter hvor lang tid det tager for en plante at vokse til næste stadie, baseret på niveauet og vejret
 setGrowthDuration(level) {
-  const baseDuration = 10000; // Base growth duration for level 1
-  const decrement = 500; // Decrease in duration per level
-  let calculatedDuration = baseDuration;
+  let calculatedDuration = 10000; // Startværdi for grotiden i millisekunder (10 sekunder)
+  const decrement = 500; // Hvor meget grotiden skal reduceres for hvert niveau gro tid er opgraderet (500 ms)
 
-  // Use a for loop to decrement the duration for each level
+  // Looper gennem niveauet og reducer grotiden pr. niveau
   for (let i = 0; i < level; i++) {
     calculatedDuration -= decrement;
   }
 
-  // Ensure the duration does not go below 500ms
-  if (calculatedDuration < 500) {
-    calculatedDuration = 500;
-  }
-  
-  // Default to 1 if weather is unknown
-
-  // Defines weather effects with a Json object
-  // Clear weather has no effect, cloudy weather slows growth, and rain speeds up growth
+  // Definerer vejrfaktorerne, som påvirker grotiden med et objekt der indeholder vejrfaktorerne og deres effekter
   const weatherEffects = {
-    "clear": 1,    // No effect
-    "cloudy": 1.5, // Slower growth
-    "rain": 0.5   // Faster growth
+    "clear": 1,    // Ingen effekt
+    "cloudy": 1.5, // Langsommere grotid
+    "rain": 0.5   // Hurtigere grotid
   };
 
-  // Get the weather effect based on the current weather, by taking it from the weatherHandler class and getting it in the weatherEffect Json
-  const weatherEffect = weatherEffects[weatherHandler.weather] || 1; // Default to 1 if weather is not one of the 3 or not defined
+  // Variabel der holder på vejrfaktoren, som bliver hentet fra weatherHandler objektet, som indeholder vejret i spillet
+  const weatherEffect = weatherEffects[weatherHandler.weather] || 1; // Hvis der er en fejl og vejrfaktoren ikke findes, så sætter den den til 1 (ingen effekt)
 
-  // Apply the weather effect to the calculated duration by multiplying it
+  // Ganger grotiden baseret på vejrfaktoren
   calculatedDuration *= weatherEffect;
-
-  this.growthDuration = calculatedDuration; // Set the growth duration
+  this.growthDuration = calculatedDuration; // Sætter grotiden til den beregnede værdi
 
   // Debugging
   console.log(`Growth duration set to ${this.growthDuration} ms for level ${level} with the weather effect of ${weatherEffect}.`);
 }
 
-// Update the growth of plants over time
-// Note: This function is called in sketch draw
+// updateGrowth() opdaterer grostadiet for hver plot i gridet, hvis det er plantet og tiden er gået
 updateGrowth() {
-  const currentTime = Date.now()
+  const currentTime = Date.now() // Varibel der holder på den nuværende tid i millisekunder, så vi kan bruge den til at tjekke om tiden er gået for at opdatere grostadiet
 
-  for (let row = 0; row < this.plotsAmountRow; row++) { // Loop through each rows that each holds 5 columns
-    for (let col = 0; col < this.plotsAmountCol; col++) { // Loop through each columns that each holds 5 plots
-      const plot = this.grid[row][col] // Get the current plot, that the loops are on
+  for (let row = 0; row < this.plotsAmountRow; row++) { // Looper gennem hver række i gridet, som er 5 plots bredt
+    for (let col = 0; col < this.plotsAmountCol; col++) { // Looper gennem hver kolonne i gridet, som er 5 plots højt
+      const plot = this.grid[row][col] // Varibel der holder på det nuværende plot, som loopsene er på
 
-      if (plot.state === 'planted') { // Checks growth only for planted plots
-        // Check if enough time has passed to grow to the next stage
-        if (currentTime - plot.growthTimer >= this.growthDuration) { // Check if the growth timer has reached the growth duration, by minusing the current time with when the plot was last updated or planted
-          if (plot.growthStage < this.plantedPlot.length - 1) { // Check if the plot is not fully grown
-            plot.growthStage++; // Grow it to the next growth stage
-            plot.growthTimer = currentTime; // And sets the growth timer to the current time, so it restarts the timer for the next growth stage
+      if (plot.state === 'planted') { // Tjekker om plotten er plantet
+        if (currentTime - plot.growthTimer >= this.growthDuration) { // Tjekker om tiden er gået for at opdatere grostadiet, ved at trække gro timeren fra den nuværende tid og tjekke om det er større end grotiden
+          if (plot.growthStage < this.plantedPlot.length - 1) { // Tjekker den er færdig med at vokse, ved at tjekke om grostadiet er mindre end længden af plantedPlot arrayet minus 1 (da arrayet starter fra 0)
+            plot.growthStage++; // Sætter grostadiet til det næste stadie
+            plot.growthTimer = currentTime; // Opdaterer gro timeren til den nuværende tid, så vi kan bruge den til at tjekke om tiden er gået for at opdatere grostadiet igen
           } else {
-            plot.state = 'harvestable'; // When fully grown, change to harvestable
+            plot.state = 'harvestable'; // Sætter tilstanden til høstbart, hvis grostadiet er færdigt med at vokse
           }
         }
       }
@@ -171,36 +157,36 @@ updateGrowth() {
   }
 }
 
-// Handle mouse clicks to interact with the grid
+// handleMouseClick() tjekker om spilleren klikker på et plot i gridet, og opdaterer tilstanden og grostadiet for det plot
 handleMouseClick(mx, my) {
-if (this.isUIOpen) {
-  const gridWidth = this.plotSize * 5;  // This is the total width of the grid, so we can center it
-  const gridHeight = this.plotSize * 5;  // This is the total height of the grid, so we can center it
-  const startX = (width - gridWidth) / 2; // Center it horizontally
-  const startY = (height - gridHeight) / 2; // Center it vertically
+if (this.isUIOpen) { // Tjekker om UI'en er åben, så man kan interagere med plottene
+  const gridWidth = this.plotSize * 5;  // gridWidth er bredden af gridet, som er 5 plots bredt
+  const gridHeight = this.plotSize * 5;  // gridHeight er højden af gridet, som er 5 plots højt
+  const startX = (width - gridWidth) / 2; // Variabel der holder på x positionen af hvor gridet er startet med blevet tegnes så vi kan finde det specikke plot
+  const startY = (height - gridHeight) / 2; // Variabel der holder på y positionen af hvor gridet er startet med blevet tegnes så vi kan finde det specikke plot
 
-    for (let row = 0; row < this.plotsAmountRow; row++) { // Loop through each rows that each holds 5 columns
-        for (let col = 0; col < this.plotsAmountCol; col++) { // Loop through each columns that each holds 5 plots
-          // Calculate the x and y position of the current plot, by using the startX and startY and the plot size multiplied by the current row and column
-            const x = startX + col * this.plotSize; // Calculate the x position of the current plot the loops are on
-            const y = startY + row * this.plotSize;  // Calculate the y position of the current plot the loops are on
+    for (let row = 0; row < this.plotsAmountRow; row++) { // Looper gennem hver række i gridet, som er 5 plots bredt
+        for (let col = 0; col < this.plotsAmountCol; col++) { // Looper gennem hver kolonne i gridet, som er 5 plots højt
+          // Hvert plots x og y position beregnes ved at tage startX og startY og tilføje plotSize ganget med den nuværende række og kolonne
+          const x = startX + col * this.plotSize; // Regner x positionen af det nuværende plot, som loopsene er på
+          const y = startY + row * this.plotSize;  // Regner y positionen af det nuværende plot, som loopsene er på
 
-          // Check if the mouse is within the plot area, and only do something if it is
+          // Tjekker om musen er inden for plottet loopnse er på, ved at tjekke om musens x og y position er inden for plottet
           if (mx > x && mx < x + this.plotSize && my > y && my < y + this.plotSize) {
-            const plot = this.grid[row][col]; // Get the current plot, that the loops are on
+            const plot = this.grid[row][col]; // Varibel der holder på det nuværende plot, som loopsene er på
 
-            // Interact with the plot based on its state
+            // Tjekker om plotten er tom eller høstbar, og opdaterer tilstanden og grostadiet for det plot hvis det er
             if (plot.state === 'empty') {
-              plot.state = 'planted'; // Change to planted
-              plot.growthStage = 0; // Start at growth stage 0
-              plot.growthTimer = Date.now(); // Start the growth timer
+              plot.state = 'planted'; // Sætter tilstanden til plantet
+              plot.growthStage = 0; // Sætter grostadiet til 0 (startstadiet)
+              plot.growthTimer = Date.now(); // Starter gro timeren til den nuværende tid, så vi kan bruge den til at tjekke om tiden er gået for at opdatere grostadiet
             } else if (plot.state === 'harvestable') {
-              gameController.addPotatoes(1); // Add a potato to the player's inventory
-              plot.state = 'empty'; // Reset to empty
-              plot.growthStage = 0; // Reset growth stage
-              plot.growthTimer = 0; // Reset growth timer
+              gameController.addPotatoes(1); // Tilføjer 1 kartoffel, når de høster en kartoffel
+              plot.state = 'empty'; // Sætter tilstanden til tomt igen
+              plot.growthStage = 0; // Genstarter grostadiet til 0 (startstadiet)
+              plot.growthTimer = 0; // Genstarter gro timeren til 0, da der ikke er nogen plante i plottet
             }
-            // Exit the loop once the clicked plot is found and updated
+            // Stopper loopen når vi har fundet det plot vi vil interagere med, så vi ikke opdaterer flere plots på en gang
           return;
           }
         }
