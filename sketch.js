@@ -238,12 +238,13 @@ function drawGame() {
   gameController.displayNotifications();
 }
 
+// startGame() funktionen bliver brugt til at starte spillet, når brugeren trykker på start knappen. Den tjekker om brugeren har indtastet et username, og hvis det er tilfældet, så starter spillet.
 function startGame() {
-  username = usernameInput.value().trim(); // Trim removes whitespace- from the beginning and end of the string
-  if (username) { // Check if the username is not empty
-
-    database.collection("eksgameTest").doc("usernames").get().then((doc) => { // Get the document in firebase with all the users with saved data
-      const usernames = doc.data(); // Retrieve all usernames from the document
+  username = usernameInput.value().trim(); // .trim() funktionen fjerner whitespace fra starten og slutningen af det man har indtastet som username, så man ikke kommer til at trykke mellemrum ved et uheld
+  if (username) { // Tjekker om username ikke er tomt
+  //database er instansen der kalder forbindelsen til fireBase - funktionerne collection, doc og get() gør det muligt at få data det rigtige sted 
+    database.collection("eksgameTest").doc("usernames").get().then((doc) => { // For fat i dataen fra firebase med alle usernames og deres data
+      const usernames = doc.data(); // Henterer usernames dataen fra firebase og gemmer den i usernames variablen
       if (doc.exists && usernames[username]) { // Check if the specific username exists in the firebase document, and if the document exists
         // Load progress if username exists
         const userData = usernames[username]; // Retrieve data for the specific username
