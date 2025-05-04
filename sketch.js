@@ -250,8 +250,7 @@ function startGame() {
         gameController = new GameController(); // Create a new gameController class
         loadGame();/* Load the game after creating a new save.
         (Needs to load game before loading Upgrade levels, because that function uses farm and storage classes, and they are first made in loadgame)*/
-        gameController.loadCoinsAndPotatoes(userData.coins, userData.potato, userData.storageLevel, userData.growthLevel, userData.storedPotatoes); // Load the gameController with the loaded data
-        gameController.loadUpgradeLevels(userData.storageLevel, userData.growthLevel); // Load the upgrade levels
+        gameController.loadCoinsPotatoesAndLevels(userData.coins, userData.potato, userData.storageLevel, userData.growthLevel, userData.storedPotatoes); // Load the gameController with the loaded data
 
         //debugging
         console.log("Logged ind som username: " + username+", Coins: " + gameController.coins+", Potatoes: " + gameController.potato);  
@@ -272,8 +271,7 @@ function startGame() {
             gameController = new GameController(); // Create a new gameController class
             loadGame(); /* Load the game after creating a new save.
             (Needs to load game before loading Upgrade levels, because that function uses farm and storage classes, and they are first made in loadgame)*/
-            gameController.loadCoinsAndPotatoes(0, 0, 0, 0, 0); // Load the gameController with the default values
-            gameController.loadUpgradeLevels(0,0)// Load the upgrade levels with default values
+            gameController.loadCoinsPotatoesAndLevels(0, 0, 0, 0, 0); // Load the gameController with the default values
           });
         }
       }
