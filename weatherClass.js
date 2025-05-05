@@ -1,4 +1,4 @@
-class EmilErEnAbeVejr {
+class vejr {
     constructor() {
         this.weather = null;
         this.temperature = null;

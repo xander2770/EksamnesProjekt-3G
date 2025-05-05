@@ -70,7 +70,7 @@ function preload(){
 }
 
 function setup() {
-  weatherHandler = new EmilErEnAbeVejr
+  weatherHandler = new vejr
   
   createCanvas(windowWidth-1, windowHeight-1);
   frameRate(60); // Set the frame rate to 60 FPS
