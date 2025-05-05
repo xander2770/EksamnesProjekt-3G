@@ -23,8 +23,12 @@ let autoSaveInterval;
 let skinFramesRight = []; // Array for right movement animation frames
 let skinFramesLeft = []; // Array for left movement animation frames
 let skinIdleFrame
-let map
 let startScreen
+
+let map
+let mapClear
+let mapCloudy
+let mapRain
 
 //Settings variables
 let settingsIcon; // Variable for the settings icon
@@ -50,7 +54,10 @@ function preload(){
     startScreen = loadImage('images/StartScreen1 240x135.png');
 
     // Load the map image
-    map = loadImage('images/map1_1920x1080.png');
+    mapClear = loadImage('images/Chatimages/ChatGPT Image1.png');
+    mapCloudy = loadImage('images/Chatimages/ChatGPT Image2.png');
+    mapRain  = loadImage('images/Chatimages/ChatGPT Image3.png');
+   
 
      // Load the settings icon image
     settingsIcon = loadImage('images/settingsIcon_128x128.png');
@@ -145,7 +152,7 @@ function drawStartScreen() {
 
 function drawGame() {
   imageMode(CENTER);
-  image(map, width/2, height/2, width, height)
+  image(map, width/2, height/2, width, height)  // Display the map image
 
   // Display coins and potatoes
   textSize(16);
@@ -231,28 +238,28 @@ function drawGame() {
   gameController.displayNotifications();
 }
 
+// startGame() funktionen bliver brugt til at starte spillet, når brugeren trykker på start knappen. Den tjekker om brugeren har indtastet et username, og hvis det er tilfældet, så starter spillet.
 function startGame() {
-  username = usernameInput.value().trim(); // Trim removes whitespace- from the beginning and end of the string
-  if (username) {
-    // Check if the username exists in Firebase
-    database.collection("eksgameTest").doc("usernames").get().then((doc) => {
-      const usernames = doc.data(); // Retrieve all usernames from the document
-      if (doc.exists && usernames[username]) { // Check if the specific username exists
+  username = usernameInput.value().trim(); // .trim() funktionen fjerner whitespace fra starten og slutningen af det man har indtastet som username, så man ikke kommer til at trykke mellemrum ved et uheld
+  if (username) { // Tjekker om username ikke er tomt
+  //database er instansen der kalder forbindelsen til fireBase - funktionerne collection, doc og get() gør det muligt at få data det rigtige sted 
+    database.collection("eksgameTest").doc("usernames").get().then((doc) => { // For fat i dataen fra firebase med alle usernames og deres data
+      const usernames = doc.data(); // Henterer usernames dataen fra firebase og gemmer den i usernames variablen
+      if (doc.exists && usernames[username]) { // Check if the specific username exists in the firebase document, and if the document exists
         // Load progress if username exists
         const userData = usernames[username]; // Retrieve data for the specific username
-        gameController = new GameController();
+        gameController = new GameController(); // Create a new gameController class
         loadGame();/* Load the game after creating a new save.
         (Needs to load game before loading Upgrade levels, because that function uses farm and storage classes, and they are first made in loadgame)*/
-        gameController.updateCoinsAndPotatoes(userData.coins, userData.potato, userData.storageLevel, userData.growthLevel, userData.storedPotatoes); // Update the gameController with the loaded data
-        gameController.loadUpgradeLevels(userData.storageLevel, userData.growthLevel); // Load the upgrade levels
+        gameController.loadCoinsPotatoesAndLevels(userData.coins, userData.potato, userData.storageLevel, userData.growthLevel, userData.storedPotatoes); // Load the gameController with the loaded data
 
         //debugging
         console.log("Logged ind som username: " + username+", Coins: " + gameController.coins+", Potatoes: " + gameController.potato);  
-      } else {
+      } else { // If the username does not exist in the document, ask if they want to create a new save
         // Ask the player if they want to create a new save
         let createNewSave = confirm("No save file found for this username. Do you want to create a new save?");
-        if (createNewSave) {
-            database.collection("eksgameTest").doc("usernames").update({
+        if (createNewSave) { // If the player wants to create a new save
+            database.collection("eksgameTest").doc("usernames").update({ // Update the document with the new username and the default values
             [username]: {
               coins: 0,
               potato: 0,
@@ -260,13 +267,12 @@ function startGame() {
               growthLevel: 0,
               storedPotatoes: 0
             }
-            }).then(() => {
+            }).then(() => { // After getting the saved data or updating the document with a new user, create a new GameController class and load the game with the data
             console.log("Logged ind som ny username: " + username);
-            gameController = new GameController();
+            gameController = new GameController(); // Create a new gameController class
             loadGame(); /* Load the game after creating a new save.
             (Needs to load game before loading Upgrade levels, because that function uses farm and storage classes, and they are first made in loadgame)*/
-            gameController.updateCoinsAndPotatoes(0, 0, 0, 0, 0);
-            gameController.loadUpgradeLevels(0,0)
+            gameController.loadCoinsPotatoesAndLevels(0, 0, 0, 0, 0); // Load the gameController with the default values
           });
         }
       }

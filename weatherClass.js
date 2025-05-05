@@ -42,6 +42,20 @@ class vejr {
         console.log("- Temp:", this.temperature + "°C");
         console.log("- Daytime:", this.isDaytime ? "Yes" : "No");
 
+        switch(this.weather) { // Switch statement to check the weather and display the corresponding image
+            case "clear":
+              map = mapClear; // Clear weather
+              break;
+            case "cloudy":
+              map = mapCloudy; // Cloudy weather
+              break;
+            case "rain":
+              map = mapRain; // Rainy weather
+              break;
+            default:
+              map = mapClear; // Default to clear weather 
+          }
+
         setInterval(async () => {
             const updatedData = await this.getWeatherData();
             if (!updatedData) return;
@@ -54,6 +68,20 @@ class vejr {
             console.log("- Type:", this.weather);
             console.log("- Temp:", this.temperature + "°C");
             console.log("- Daytime:", this.isDaytime ? "Yes" : "No");
+
+            switch(this.weather) { // Switch statement to check the weather and display the corresponding image
+                case "clear":
+                  map = mapClear; // Clear weather
+                  break;
+                case "cloudy":
+                  map = mapCloudy; // Cloudy weather
+                  break;
+                case "rain":
+                  map = mapRain; // Rainy weather
+                  break;
+                default:
+                  map = mapClear; // Default to clear weather 
+              }
         }, 200000);
     }
 }
