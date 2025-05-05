@@ -8,7 +8,7 @@ class Shop {
     this.sellDropdown = null; // Dropdown for selecting bundle size
     this.upgradeButton = null;
     this.upgradeGrowthButton = null; // Button for upgrading storage
-    this.upgradeStorageCost = gameController.storageLevel; // Initial cost to upgrade storage
+    this.upgradeStorageCost = (gameController.storageLevel + 1) * 100; // Calculate initial cost to upgrade storage
     this.upgradeGrowthCost = gameController.growthLevel; // Initial cost to upgrade storage
   }
 
@@ -32,7 +32,7 @@ class Shop {
       textSize(20);
       text("Shop UI", width / 2, height / 2 - 100);
       text("Select Bundle Size and Sell Potatoes", width / 2, height / 2 - 50);
-      text("Upgrade Storage Cost: "+this.upgradeCost, width / 2, height / 2 + 100);
+      text("Upgrade Storage Cost: "+this.upgradeStorageCost, width / 2, height / 2 + 100);
       text("Storage Level: " + gameController.storageLevel, width / 2, height / 2 + 150);
       text("Upgrade Growth Cost: " + this.upgradeGrowthCost, width / 2, height / 2 + 200);
       text("Growth Level: " + gameController.growthLevel, width / 2, height / 2 + 250);
