@@ -10,6 +10,7 @@ class vejr {
         this.cloudy = [2, 3, 45, 48, 51, 53]; // Koder for overskyet vejr
         this.rain = [55, 56, 57, 61, 63, 65, 66, 67, 71, 73, 75, 77, 80, 81, 82, 85, 86, 95, 96, 99]; // Koder for regnvejr
 
+
         // Hent og opdater vejrdatasættet, når klassen kaldes
         this.updateWeather();
     }
