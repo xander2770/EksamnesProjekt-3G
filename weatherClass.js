@@ -7,8 +7,8 @@ class vejr {
         this.isDaytime = null; // Boolean indicating if it's daytime
 
         // Weather code mappings for different weather types
-        this.clear = [0, 1]; // Codes for clear weather
-        this.cloudy = [2, 3, 45, 48, 51, 53]; // Codes for cloudy weather
+        this.clear = [0, 2]; // Codes for clear weather
+        this.cloudy = [1, 3, 45, 48, 51, 53]; // Codes for cloudy weather
         this.rain = [55, 56, 57, 61, 63, 65, 66, 67, 71, 73, 75, 77, 80, 81, 82, 85, 86, 95, 96, 99]; // Codes for rainy weather
 
         // Fetch and update the weather data when the class is instantiated
