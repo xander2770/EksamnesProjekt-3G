@@ -39,9 +39,9 @@ class Shop {
       textSize(20);
       text("Shop UI", width / 2, height / 2 - 100);
       text("Vælg pakkestørrelse og sælg kartofler", width / 2, height / 2 - 50);
-      text("Omkostning for opgradering af lager: " + this.upgradeCost, width / 2, height / 2 + 100);
+      text("Pris for opgradering af lager: " + this.upgradeStorageCost, width / 2, height / 2 + 100);
       text("Lager-niveau: " + gameController.storageLevel, width / 2, height / 2 + 150);
-      text("Omkostning for opgradering af vækst: " + this.upgradeGrowthCost, width / 2, height / 2 + 200);
+      text("Pris for opgradering af vækst: " + this.upgradeGrowthCost, width / 2, height / 2 + 200);
       text("Vækst-niveau: " + gameController.growthLevel, width / 2, height / 2 + 250);
 
       // Definér UI’ets øverste venstre hjørnea
