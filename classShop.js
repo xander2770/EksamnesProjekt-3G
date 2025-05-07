@@ -150,7 +150,7 @@ class Shop {
   upgradeStorage() {
     if (gameController.coins >= this.upgradeStorageCost && gameController.storageLevel < 10) {
       gameController.storageLevel += 1;
-      gameController.coins -= this.upgradeCost; // tag penge fra spiller
+      gameController.coins -= this.upgradeStorageCost; // tag penge fra spiller
       storage.setStorageCapacity(gameController.storageLevel); // Sæt ny storage kapacitet
       console.log(`Lager opgraderet! Ny kapacitet: ${storage.maxPotatoes}`);
       console.log(`Mønter trukket: ${this.upgradeCost}`);
