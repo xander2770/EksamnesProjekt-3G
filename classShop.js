@@ -148,7 +148,7 @@ class Shop {
 
   // Opgrader storage kapacitet
   upgradeStorage() {
-    if (gameController.coins >= this.upgradeCost && gameController.storageLevel < 10) {
+    if (gameController.coins >= this.upgradeStorageCost && gameController.storageLevel < 10) {
       gameController.storageLevel += 1;
       gameController.coins -= this.upgradeCost; // tag penge fra spiller
       storage.setStorageCapacity(gameController.storageLevel); // Sæt ny storage kapacitet
