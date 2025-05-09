@@ -1,0 +1,1 @@
+Vi bruger fire base derfor virker spillet ikke uden at downloade zip filen da vi ikke ligger vores api key op på GitHub.
