@@ -6,10 +6,10 @@ class Shop {
     this.dia = dia; // Diameter for butikkens interaktionsradius
 
     this.isUIOpen = false; // Om butiks-UI'et er åbent
-    this.sellButton = null; // Knap til at sælge kartofler
-    this.sellDropdown = null; // Dropdown til at vælge hvor mange kartofler der skal sælges
-    this.upgradeButton = null; // Knap til at opgradere lager
-    this.upgradeGrowthButton = null; // Knap til at opgradere væksthastighed
+    this.sellButton; // Knap til at sælge kartofler
+    this.sellDropdown; // Dropdown til at vælge hvor mange kartofler der skal sælges
+    this.upgradeButton; // Knap til at opgradere lager
+    this.upgradeGrowthButton; // Knap til at opgradere væksthastighed
 
     this.upgradeStorageCost = gameController.storageLevel;
     this.upgradeGrowthCost = gameController.growthLevel;

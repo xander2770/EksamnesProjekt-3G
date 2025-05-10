@@ -1,9 +1,9 @@
 // Klasse til at håndtere vejrdata og opdatere spillets miljø derefter
 class vejr {
     constructor() {
-        this.weather = null; // Aktuel vejrtype (f.eks. klart, overskyet, regn)
-        this.temperature = null; // Aktuel temperatur i grader Celsius
-        this.isDaytime = null; // Boolean der angiver om det er dag
+        this.weather; // Aktuel vejrtype (f.eks. klart, overskyet, regn)
+        this.temperature; // Aktuel temperatur i grader Celsius
+        this.isDaytime; // Boolean der angiver om det er dag
 
         // Vejrkoder for forskellige vejrtype
         this.clear = [0, 1]; // Koder for klart vejr
